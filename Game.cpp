@@ -45,7 +45,7 @@ void Game::update()
 {
     GameState state;
     sf::Clock clock;
-    // sf::Clock clk;
+
     while (window.isOpen())
     {
         sf::Time dt = clock.restart();
@@ -87,13 +87,16 @@ void Game::update()
             }   
         }
 
-        // sf::Time frameCntTime;
-        // frameCntTime = clk.getElapsedTime();
-        // if(frameCntTime.asSeconds() >= 1.f)
-        // {
-        //     std::cout << 1.f/dt.asSeconds() << std::endl;
-        //     frameCntTime = clk.restart();
-        // }
+        // Framerate counter
+        #if DEBUG
+        sf::Time frameCntTime;
+        frameCntTime = clk.getElapsedTime();
+        if(frameCntTime.asSeconds() >= 1.f)
+        {
+            std::cout << 1.f/dt.asSeconds() << std::endl;
+            frameCntTime = clk.restart();
+        }
+        #endif
         draw();
     }
 }
@@ -140,6 +143,7 @@ void Game::drawDebugEntities(std::vector<T>& v)
 
 void Game::drawLives()
 {
+    // Use on sprite to draw lives up to the livesNo
     for(int i = 0; i < ship.getLives(); i++)
     {
         shipHpSprite.setPosition({16.f + 32.f * i, 28.f});
@@ -164,13 +168,6 @@ void Game::draw()
     window.draw(ship.getSprite());
     drawEntities(asteroids);
     drawEntities(bullets);
-    // sf::RectangleShape rect({300, 300});
-    // rect.setOrigin({300/2, 300/2});
-    // rect.setPosition({ship.getPosition().x, ship.getPosition().y});
-    // rect.setOutlineColor(sf::Color::Red);
-    // rect.setOutlineThickness(1);
-    // rect.setFillColor(sf::Color::Transparent);
-    // window.draw(rect);
     #if DEBUG 
     window.draw(ship.getDebugCircle());
     drawDebugEntities(asteroids);

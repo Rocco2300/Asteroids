@@ -3,6 +3,10 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 
+/*
+This is a singleton class used for loading the 
+textures needed just once
+*/
 class TextureLoader
 {
 public:

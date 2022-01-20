@@ -31,6 +31,7 @@ void Spawner::spawnAsteroids(int count)
     for(int i = 0; i < count; i++)
     {
         ast::Vector2 randPos, randDir;
+        // Do not spawn asteroids near player
         do
         {          
             randPos.x = rand() % WINDOW_WIDTH;

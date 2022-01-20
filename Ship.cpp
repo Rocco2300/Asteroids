@@ -63,6 +63,7 @@ void Ship::animate()
 {
     if(accelInput)
     {
+        // Offset the sprite based on time passed
         timeBetweenFrames = animationClock.getElapsedTime();
         if(timeBetweenFrames.asSeconds() >= 0.15f)
         { 
@@ -74,6 +75,8 @@ void Ship::animate()
     }
     else
     {
+        // We set the current frame to 32
+        // to show the flame as soon as we press space
         indexToCurrentFrame = 32;
         setSprite({0.f, 0.f}, {32.f, 45.f});
     }

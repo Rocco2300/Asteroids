@@ -51,6 +51,8 @@ void GameManager::spawnAsteroids(int n)
 
 void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
 {
+    // Find 2 perpendicular vectors to dir to place new asteroid
+    // when the larger asteroid is broken
     float delta = 4 + 4 * ((dir.x * dir.x) / (dir.y * dir.y));
     offset1.x = sqrt(delta) / (2 + 2 * ((dir.x * dir.x) / (dir.y * dir.y)));
     offset2.x = -sqrt(delta) / (2 + 2 * ((dir.x * dir.x) / (dir.y * dir.y)));
@@ -62,9 +64,11 @@ void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector
 
 void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& newDir1, ast::Vector2& newDir2)
 {
+    // Get a 2 random angle offsets
     int rand1, rand2;
     rand1 = (rand() % 40) + 5;
     rand2 = (rand() % 40) + 5;
+    // Build the new direction vector
     float angleOfDir = atan2(dir.y, dir.x) * 180/PI;
     newDir1.x = cos((angleOfDir + rand1) * PI/180);
     newDir1.y = sin((angleOfDir + rand1) * PI/180);
@@ -82,6 +86,7 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
 
 GameState GameManager::checkCollisions()
 {
+    // Check player - asteroid collisions
     for(int i = 0; i < asteroids->size(); i++)
     {
         std::string tag = CircleCollider::checkCollision
@@ -102,6 +107,7 @@ GameState GameManager::checkCollisions()
         }
     }
 
+    // Check the asteroid - bullet collisions
     for(int j = 0; j < asteroids->size(); j++)
     {
         for(int i = 0; i < bullets->size(); i++)
@@ -119,10 +125,12 @@ GameState GameManager::checkCollisions()
                     ast::Vector2 pos = asteroids->at(j).getPosition();
                     ast::Vector2 dir = asteroids->at(j).getDirection();
                     asteroids->erase(asteroids->begin() + j);
+
                     ast::Vector2 offset1, offset2;
                     calculateOffsetVectors(dir, offset1, offset2);
                     ast::Vector2 newDir1, newDir2;
                     randomizeDirection(dir, offset1, newDir1, newDir2);
+
                     Asteroid ast;
                     spawner.spawnAsteroid(pos + offset1, newDir1, 3.f, AsteroidSize::Small);
                     spawner.spawnAsteroid(pos + offset2, newDir2, 3.f, AsteroidSize::Small);
