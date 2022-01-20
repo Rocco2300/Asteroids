@@ -40,10 +40,10 @@ After the project is built, you will just have tu run the executable.
 ## Contributions
 
 At the moment this is just a place to shere this project
-with people that want to explore a C++ SFML Example,
+with people that want to explore a C++ SFML example,
 and there would be no contributions accepted.
 
 If you find a bug you could post an issue about it,
 and I will try to fix it.
 
-Feel free to pull this project and use it as you wish.
+Feel free to clone this project and use it as you wish.
