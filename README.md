@@ -15,13 +15,10 @@ comfortable writing C++ code.
 
 The project includes the makefile needed to build it, on a 
 windows machine you'll need to install mingw, and on linux you should 
-have g++ installed.
-
-You will have to build the SFML binaries, you can do so by following the 
+have g++ installed. You will also have to build the SFML binaries, you can do so by following the 
 [tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php) that is found on their website.
-
-You will have to place the **.a** files in a directory lib in '/src/include',
-and the **.dll** files in the main dir.
+The **.a** files will have to be placed in `/src/lib` and the **.dll** files in the main
+directory.
 
 Then to build it you will have to run the command: 
 
