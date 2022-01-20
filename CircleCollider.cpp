@@ -42,7 +42,7 @@ void CircleCollider::setPosition(ast::Vector2 pos)
 
 void CircleCollider::disable()
 {
-    this->enabled = false;
+    this->enabled = true;
 }
 
 ast::Vector2 CircleCollider::getPos() { return pos; }

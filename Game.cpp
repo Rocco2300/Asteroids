@@ -65,7 +65,7 @@ void Game::update()
             }
         }
 
-        state = manager.checkCollisions();
+        state = manager.update();
         if(state != GameOver)
         {
             ship.update(dt);
@@ -76,7 +76,7 @@ void Game::update()
             // Correct the score display to display at the edge regardless of width of text
             int score = manager.getScore();
             // Prevent undefined log10(0)
-            int offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
+            float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
             scoreText.setOrigin({offset, 0.f});
             scoreText.setString(std::to_string(manager.getScore()));
 

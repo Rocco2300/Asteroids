@@ -138,3 +138,21 @@ GameState GameManager::checkCollisions()
     }
     return state;
 }
+
+GameState GameManager::update()
+{
+    GameState state = checkCollisions();
+    if(asteroids->empty())
+    {
+        waveRespawnTime = clock.getElapsedTime();
+
+        if(waveRespawnTime.asSeconds() >= 3.f)
+        {
+            std::cout << waveRespawnTime.asSeconds() << std::endl;
+            spawnAsteroids(5);
+        }
+    }
+    else
+        clock.restart();
+    return state;
+}

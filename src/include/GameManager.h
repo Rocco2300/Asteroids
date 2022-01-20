@@ -16,6 +16,8 @@ class GameManager
 private:
     GameState state;
     Spawner spawner;
+    sf::Clock clock;
+    sf::Time waveRespawnTime;
 
     Ship *player; 
     int score;
@@ -31,4 +33,5 @@ public:
     int getScore();
     void spawnAsteroids(int n);
     GameState checkCollisions();
+    GameState update();
 };
