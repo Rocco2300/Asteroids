@@ -82,7 +82,7 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
 
 GameState GameManager::checkCollisions()
 {
-    for(size_t i = 0; i < asteroids->size(); i++)
+    for(int i = 0; i < asteroids->size(); i++)
     {
         std::string tag = CircleCollider::checkCollision
                             (
@@ -102,9 +102,9 @@ GameState GameManager::checkCollisions()
         }
     }
 
-    for(size_t j = 0; j < asteroids->size(); j++)
+    for(int j = 0; j < asteroids->size(); j++)
     {
-        for(size_t i = 0; i < bullets->size(); i++)
+        for(int i = 0; i < bullets->size(); i++)
         {
             std::string tag = CircleCollider::checkCollision
                     (

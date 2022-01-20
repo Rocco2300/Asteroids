@@ -1,6 +1,7 @@
 #include <iostream>
-#include <ctime>
 #include <random>
+#include <cmath>
+#include <ctime>
 #include "src/include/Game.h"
 #include "src/include/TextureLoader.h"
 
@@ -23,7 +24,8 @@ Game::Game()
     scoreText.setFont(font);
     scoreText.setCharacterSize(36);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition({5.f, 0.f});
+    scoreText.setOrigin({30.f, 0.f});
+    scoreText.setPosition({800.f, 0.f});
 
     ship = Ship(bullets);
 
@@ -70,7 +72,14 @@ void Game::update()
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
+
+            // Correct the score display to display at the edge regardless of width of text
+            int score = manager.getScore();
+            // Prevent undefined log10(0)
+            int offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
+            scoreText.setOrigin({offset, 0.f});
             scoreText.setString(std::to_string(manager.getScore()));
+
             if(state == GameState::GameOver && !gameOver)
             {
                 gameOver = true;
@@ -133,7 +142,7 @@ void Game::drawLives()
 {
     for(int i = 0; i < ship.getLives(); i++)
     {
-        shipHpSprite.setPosition({16.f + 32.f * i, 64.f});
+        shipHpSprite.setPosition({16.f + 32.f * i, 28.f});
         window.draw(shipHpSprite);
     }
 }
