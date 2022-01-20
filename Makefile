@@ -18,4 +18,5 @@ $(OBJSRC)%.o: %.cpp $(DEPS)
 	$(CXX) -I $(INCLSRC) -c -g $< -o $@
 
 clean: 
-	del /f $(OBJSRC)*.o
+	del /f src\\*.o
+	del /f a.exe

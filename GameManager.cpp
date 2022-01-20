@@ -11,7 +11,7 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
 {
     srand(time(NULL));
     this->state = GameState::Running;
-    this->spawner.init(asteroids);
+    this->spawner.init(player, asteroids);
     this->score = 0;
 
     this->player = &player;
@@ -24,7 +24,7 @@ void GameManager::init(Ship& player, std::vector<Asteroid>& asteroids,
 {
     srand(time(NULL));
     this->state = GameState::Running;
-    this->spawner.init(asteroids);
+    this->spawner.init(player, asteroids);
     this->score = 0;
 
     this->player = &player;

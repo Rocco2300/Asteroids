@@ -155,9 +155,9 @@ void Game::draw()
     window.draw(ship.getSprite());
     drawEntities(asteroids);
     drawEntities(bullets);
-    // sf::RectangleShape rect({250, 200});
-    // rect.setOrigin({250/2, 200/2});
-    // rect.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2});
+    // sf::RectangleShape rect({300, 300});
+    // rect.setOrigin({300/2, 300/2});
+    // rect.setPosition({ship.getPosition().x, ship.getPosition().y});
     // rect.setOutlineColor(sf::Color::Red);
     // rect.setOutlineThickness(1);
     // rect.setFillColor(sf::Color::Transparent);
