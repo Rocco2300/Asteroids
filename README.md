@@ -18,7 +18,7 @@ windows machine you'll need to install mingw, and on linux you should
 have g++ installed.
 
 You will have to build the SFML binaries, you can do so by following the 
-![tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php) that is found on their website.
+[tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php) that is found on their website.
 
 You will have to place the **.a** files in a directory lib in '/src/include',
 and the **.dll** files in the main dir.
@@ -26,16 +26,16 @@ and the **.dll** files in the main dir.
 Then to build it you will have to run the command: 
 
 ### Windows
-'''
+```
 cd Asteroids
 mingw32-make
-'''
+```
 
 ### Linux
-'''
+```
 cd Asteroids
 make
-'''
+```
 
 ## Contributions
 
