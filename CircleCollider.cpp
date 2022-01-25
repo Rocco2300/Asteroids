@@ -1,6 +1,6 @@
 #include <iostream>
-#include "src/include/CircleCollider.h"
-#include "src/include/Vector2.h"
+#include "CircleCollider.h"
+#include "Vector2.h"
 
 CircleCollider::CircleCollider() { }
 

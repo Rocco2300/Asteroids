@@ -1,7 +1,7 @@
 #include <set>
 #include <cmath>
-#include "src/include/GameManager.h"
-#include "src/include/Constants.h"
+#include "GameManager.h"
+#include "Constants.h"
 
 GameManager::GameManager()
 {

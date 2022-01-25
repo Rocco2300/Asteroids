@@ -1,13 +1,12 @@
 #include <iostream>
-#include "src/include/Constants.h"
-#include "src/include/Entity.h"
+#include "Constants.h"
+#include "Entity.h"
 
 Entity::Entity() {} 
 
 Entity::Entity(ast::Vector2 initialPos, std::string colliderTag)
 {
     // Initializing pos and rot
-    //dirOffset = -90.f;
     pos = initialPos;
     vel = ast::Vector2(0.f, 0.f);
     this->colliderTag = colliderTag;
@@ -18,11 +17,17 @@ void Entity::setOrigin(ast::Vector2 pos)
     sprite.setOrigin(pos.toSfVector2f());
 }
 
+void Entity::setCollider()
+{
+    collider.create(pos, colliderRadius, colliderTag);
+}
+
 void Entity::setCollider(float radius, ast::Vector2 pos)
 {
     collider.create(pos, radius, colliderTag);
 }
 
+// We use this function for textures that contain just one sprite
 void Entity::setSprite()
 {
     sprite.setTexture(*this->texture);
@@ -34,6 +39,7 @@ void Entity::setSprite()
     colliderRadius = std::min(texSize.x, texSize.y);
 }
 
+// We use this function for textures that contain multiple sprites for more control
 void Entity::setSprite(ast::Vector2 pos, ast::Vector2 size)
 {
     sprite.setTexture(*this->texture);

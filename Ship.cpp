@@ -1,7 +1,7 @@
 #include <cmath>
-#include "src/include/Constants.h"
-#include "src/include/Ship.h"
-#include "src/include/TextureLoader.h"
+#include "Constants.h"
+#include "Ship.h"
+#include "TextureLoader.h"
 
 Ship::Ship() { }
 

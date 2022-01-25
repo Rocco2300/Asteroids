@@ -1,4 +1,4 @@
-#include "src/include/TextureLoader.h"
+#include "TextureLoader.h"
 
 TextureLoader* TextureLoader::instance = nullptr;
 
@@ -19,9 +19,12 @@ void TextureLoader::loadTextures()
         std::cerr << "Loading bullet texture failed!" << std::endl;
     if(!AsteroidTexture.loadFromFile("img/Asteroids.png"))
         std::cerr << "Loading asteroid texture failed!" << std::endl;
+    if(!EnemyTexture.loadFromFile("img/Enemy.png"))
+        std::cerr << "Loading asteroid texture failed!" << std::endl;
     ShipTexture.setRepeated(false);
     BulletTexture.setRepeated(false);
     AsteroidTexture.setRepeated(false);
+    EnemyTexture.setRepeated(false);
 }
 
 void TextureLoader::destroyInstance()
@@ -42,4 +45,9 @@ sf::Texture* TextureLoader::getBulletTexture()
 sf::Texture* TextureLoader::getAsteroidTexture()
 {
     return &AsteroidTexture;
+}
+
+sf::Texture* TextureLoader::getEnemyTexture()
+{
+    return &EnemyTexture;
 }

@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "Constants.h"
 #include "Ship.h"
+#include "Enemy.h"
 
 class Game
 {
@@ -22,6 +23,7 @@ private:
     sf::Text scoreText;
 
     Ship ship;
+    Enemy enemy;
     sf::Texture* shipHpTexture;
     sf::Sprite shipHpSprite;
     std::vector<Asteroid> asteroids;

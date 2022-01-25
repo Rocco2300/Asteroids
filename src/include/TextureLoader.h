@@ -17,6 +17,7 @@ public:
     sf::Texture* getShipTexture();
     sf::Texture* getBulletTexture();
     sf::Texture* getAsteroidTexture();
+    sf::Texture* getEnemyTexture();
 private:
     TextureLoader() { }
     static TextureLoader* instance;
@@ -24,6 +25,7 @@ private:
     sf::Texture ShipTexture;
     sf::Texture BulletTexture;
     sf::Texture AsteroidTexture;
+    sf::Texture EnemyTexture;
 };
 
 

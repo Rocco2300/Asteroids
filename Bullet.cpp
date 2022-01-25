@@ -1,7 +1,7 @@
 #include <iostream>
-#include "src/include/Bullet.h"
-#include "src/include/Constants.h"
-#include "src/include/TextureLoader.h"
+#include "Bullet.h"
+#include "Constants.h"
+#include "TextureLoader.h"
 
 Bullet::Bullet() 
     : Entity(pos, "bullet")
@@ -20,6 +20,7 @@ Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed)
     this->dir = dir;
     this->speed = speed;
     despawned = false;
+    
     this->texture = TextureLoader::getInstance()->getBulletTexture();
     setSprite();
     setCollider(4.f, pos);

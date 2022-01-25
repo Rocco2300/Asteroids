@@ -1,5 +1,5 @@
-#include "src/include/Spawner.h"
-#include "src/include/Constants.h"
+#include "Spawner.h"
+#include "Constants.h"
 #include <cmath>
 
 Spawner::Spawner() { }

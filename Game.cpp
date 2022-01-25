@@ -2,10 +2,10 @@
 #include <random>
 #include <cmath>
 #include <ctime>
-#include "src/include/Game.h"
-#include "src/include/TextureLoader.h"
+#include "Game.h"
+#include "TextureLoader.h"
 
-#define DEBUG false
+#define DEBUG true
 
 Game::Game()
 { 
@@ -28,6 +28,7 @@ Game::Game()
     scoreText.setPosition({800.f, 0.f});
 
     ship = Ship(bullets);
+    enemy = Enemy({160.f, 300.f}, {1.f, 0.f}, 3);
 
     manager.init(ship, asteroids, bullets);
     manager.spawnAsteroids(5);
@@ -87,15 +88,16 @@ void Game::update()
         }
 
         // Framerate counter
-        #if DEBUG
-        sf::Time frameCntTime;
-        frameCntTime = clk.getElapsedTime();
-        if(frameCntTime.asSeconds() >= 1.f)
-        {
-            std::cout << 1.f/dt.asSeconds() << std::endl;
-            frameCntTime = clk.restart();
-        }
-        #endif
+        // #if DEBUG
+        // sf::Clock clk;
+        // sf::Time frameCntTime;
+        // frameCntTime = clk.getElapsedTime();
+        // if(frameCntTime.asSeconds() >= 1.f)
+        // {
+        //     std::cout << 1.f/dt.asSeconds() << std::endl;
+        //     frameCntTime = clk.restart();
+        // }
+        // #endif
         draw();
     }
 }
@@ -165,10 +167,12 @@ void Game::draw()
 {
     window.clear();
     window.draw(ship.getSprite());
+    window.draw(enemy.getSprite());
     drawEntities(asteroids);
     drawEntities(bullets);
     #if DEBUG 
     window.draw(ship.getDebugCircle());
+    window.draw(enemy.getDebugCircle());
     drawDebugEntities(asteroids);
     drawDebugEntities(bullets);
     #endif

@@ -1,5 +1,5 @@
-#include "src/include/Asteroid.h"
-#include "src/include/TextureLoader.h"
+#include "Asteroid.h"
+#include "TextureLoader.h"
 
 Asteroid::Asteroid() { }
 

@@ -15,7 +15,6 @@ private:
     AsteroidSize size;
     ast::Vector2 dir;
     float speed;
-    //float rot;
 public:
     Asteroid();
     Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed);

@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
-#include "src/include/Vector2.h"
+#include "Vector2.h"
 
 namespace ast
 {
