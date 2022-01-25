@@ -1,3 +1,4 @@
+#include <set>
 #include <cmath>
 #include "src/include/GameManager.h"
 #include "src/include/Constants.h"
@@ -108,6 +109,8 @@ GameState GameManager::checkCollisions()
     }
 
     // Check the asteroid - bullet collisions
+    std::set<int> asteroidsToRemove;
+    int currentAsteroidsSize = asteroids->size();
     for(int j = 0; j < asteroids->size(); j++)
     {
         for(int i = 0; i < bullets->size(); i++)
@@ -119,12 +122,11 @@ GameState GameManager::checkCollisions()
                     );
             if(tag == "asteroid")
             {
-                bullets->erase(bullets->begin() + i);
+                bullets->erase(bullets->begin() + i); 
                 if(asteroids->at(j).getSize() == AsteroidSize::Large)
                 {
                     ast::Vector2 pos = asteroids->at(j).getPosition();
                     ast::Vector2 dir = asteroids->at(j).getDirection();
-                    asteroids->erase(asteroids->begin() + j);
 
                     ast::Vector2 offset1, offset2;
                     calculateOffsetVectors(dir, offset1, offset2);
@@ -134,15 +136,25 @@ GameState GameManager::checkCollisions()
                     Asteroid ast;
                     spawner.spawnAsteroid(pos + offset1, newDir1, 3.f, AsteroidSize::Small);
                     spawner.spawnAsteroid(pos + offset2, newDir2, 3.f, AsteroidSize::Small);
-                    score += 100; 
                 }
-                else
-                {
-                    asteroids->erase(asteroids->begin() + j);
-                    score += 300;
-                }
+                asteroidsToRemove.insert(j);
+                break;
             }
         }
+    }
+
+    // Destroy the astroids that we collided with
+    // We use cnt to account for the shifting of elements after erase
+    int cnt = 0;
+    for(auto& index : asteroidsToRemove)
+    {
+        if(asteroids->at(index - cnt).getSize() == AsteroidSize::Large)
+            score += 100;
+        else
+            score += 300;
+
+        asteroids->erase(asteroids->begin() + index - cnt);
+        cnt ++;
     }
     return state;
 }
