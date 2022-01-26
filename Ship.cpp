@@ -16,7 +16,7 @@ Ship::Ship(std::vector<Bullet>& bullets)
     // Initializing the values
     hp = 3;
     dirOffset = -90.f;
-    maxVel = 10.f;
+    maxVel = 7.f;
     turningSpeed = 300.f;
     accel = 10.f;
     
@@ -49,9 +49,6 @@ void Ship::reset()
 
     // Initializing the values
     dirOffset = -90.f;
-    maxVel = 10.f;
-    turningSpeed = 300.f;
-    accel = 10.f;
 
     // Initializing pos and rot
     this->pos = ast::Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
@@ -144,6 +141,11 @@ void Ship::update(sf::Time dt)
     Entity::move(vel);
     shoot();
 
+}
+
+ast::Vector2 Ship::getVelocityVector()
+{
+    return vel;
 }
 
 sf::CircleShape Ship::getDebugCircle()

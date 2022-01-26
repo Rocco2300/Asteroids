@@ -42,6 +42,7 @@ public:
     void thrust(sf::Time dt);
     void shoot();
     void update(sf::Time dt);
+    ast::Vector2 getVelocityVector();
     sf::CircleShape getDebugCircle();
     sf::Sprite getSprite();
 };

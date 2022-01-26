@@ -30,7 +30,7 @@ Game::Game()
     ship = Ship(bullets);
 
     manager.init(ship, asteroids, bullets, enemy);
-    manager.spawnAsteroids(5);
+    manager.spawnAsteroids(1);
     scoreText.setString(std::to_string(manager.getScore()));
 }
 
@@ -71,7 +71,8 @@ void Game::update()
         if(state != GameOver)
         {
             ship.update(dt);
-            enemy.update(dt);
+            if(enemy.isAlive())
+                enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
@@ -112,7 +113,7 @@ void Game::reset()
     Asteroid asteroid;
     asteroids.clear();
     bullets.clear();
-    manager.spawnAsteroids(5);
+    manager.spawnAsteroids(1);
 }
 
 template <typename T>

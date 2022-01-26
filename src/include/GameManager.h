@@ -23,7 +23,6 @@ private:
     sf::Time currentTime;
     sf::Time enemySpawnCheck;
     bool waveEnd;
-    bool enemySpawned;
 
     int score;
     Ship *player; 

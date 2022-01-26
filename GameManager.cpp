@@ -16,7 +16,6 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
     this->score = 0;
     this->waveEnd = false;
     this->enemySpawnCheck = clock.getElapsedTime();
-    this->enemySpawned = false;
 
     this->player = &player;
     this->asteroids = &asteroids;
@@ -33,7 +32,6 @@ void GameManager::init(Ship& player, std::vector<Asteroid>& asteroids,
     this->score = 0;
     this->waveEnd = false;
     this->enemySpawnCheck = clock.getElapsedTime();
-    this->enemySpawned = false;
 
     this->player = &player;
     this->asteroids = &asteroids;
@@ -44,7 +42,6 @@ void GameManager::init(Ship& player, std::vector<Asteroid>& asteroids,
 void GameManager::reset()
 {
     this->enemySpawnCheck = clock.getElapsedTime();
-    this->enemySpawned = false;
     *enemy = Enemy();
     score = 0;
     state = GameState::Running;
@@ -159,7 +156,7 @@ GameState GameManager::checkCollisions()
         }
     }
 
-    if(enemySpawned)
+    if(enemy->isAlive())
     {
         // Check enemy - player collisions
         std::string t = CircleCollider::checkCollision
@@ -173,7 +170,6 @@ GameState GameManager::checkCollisions()
             player->takeDamage();
             player->reset();
             *enemy = Enemy();
-            enemySpawned = false;
             if(player->getLives() == 0)
             {
                 state = GameOver;
@@ -196,7 +192,6 @@ GameState GameManager::checkCollisions()
                 bullets->erase(bullets->begin() + i);
                 *enemy = Enemy();
                 score += 500;
-                enemySpawned = false;
                 enemySpawnCheck = clock.getElapsedTime();
                 break;
             }
@@ -220,11 +215,11 @@ GameState GameManager::update()
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
         {
             enemySpawnCheck = clock.getElapsedTime();
-            spawnAsteroids(5);
+            spawnAsteroids(1);
         }
     }
 
-    if((currentTime - enemySpawnCheck).asSeconds() >= 3.f && !enemySpawned && !waveEnd)
+    if((currentTime - enemySpawnCheck).asSeconds() >= 3.f && !enemy->isAlive() && !waveEnd)
     {
         int chance = rand() % 100 + 1;
         if(chance <= 50)
@@ -233,8 +228,7 @@ GameState GameManager::update()
             int randomSide = rand() % 2;
             ast::Vector2 pos(randomSide * WINDOW_WIDTH, randomHeight);
             ast::Vector2 dir((randomSide == 0) ? 1.f : -1.f, 0.f);
-            *enemy = Enemy(pos, dir, 3.f);
-            enemySpawned = true;
+            *enemy = Enemy(pos, dir, 3.f, bullets);
         }
     }
     return state;
