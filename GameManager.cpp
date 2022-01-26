@@ -97,7 +97,7 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
 GameState GameManager::checkCollisions()
 {
     // Check player - asteroid collisions
-    for(int i = 0; i < asteroids->size(); i++)
+    for(int i = asteroids->size()-1; i >= 0; i--)
     {
         std::string tag = CircleCollider::checkCollision
                             (
@@ -109,6 +109,27 @@ GameState GameManager::checkCollisions()
             player->takeDamage();
             player->reset();
             asteroids->erase(asteroids->begin() + i);
+            if(player->getLives() == 0)
+            {
+                state = GameOver;
+            }
+            return state;
+        }
+    }
+
+    // Check player - bullet collisions
+    for(int i = bullets->size()-1; i >= 0; i--)
+    {
+        std::string tag = CircleCollider::checkCollision
+                            (
+                                player->getCircleCollider(), 
+                                bullets->at(i).getCircleCollider()
+                            );       
+        if(tag == "bullet")
+        {
+            player->takeDamage();
+            player->reset();
+            bullets->erase(bullets->begin() + i);
             if(player->getLives() == 0)
             {
                 state = GameOver;
