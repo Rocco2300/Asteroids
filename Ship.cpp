@@ -124,7 +124,7 @@ void Ship::shoot()
     if(shootInput)
     {
         shootCooldown = clock.getElapsedTime();
-        if(shootCooldown.asSeconds() >= .5f)
+        if(shootCooldown.asSeconds() >= .005f)
         {
             Bullet bullet;
             bullet = Bullet(gunPos, gunDir, 10.f);

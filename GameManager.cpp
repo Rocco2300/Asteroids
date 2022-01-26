@@ -121,11 +121,9 @@ GameState GameManager::checkCollisions()
     }
 
     // Check the asteroid - bullet collisions
-    std::set<int> asteroidsToRemove;
-    int currentAsteroidsSize = asteroids->size();
-    for(int j = 0; j < asteroids->size(); j++)
+    for(int j = asteroids->size()-1; j >= 0; j--)
     {
-        for(int i = 0; i < bullets->size(); i++)
+        for(int i = bullets->size()-1; i >= 0; i--)
         {
             std::string tag = CircleCollider::checkCollision
                     (
@@ -139,6 +137,7 @@ GameState GameManager::checkCollisions()
                 {
                     ast::Vector2 pos = asteroids->at(j).getPosition();
                     ast::Vector2 dir = asteroids->at(j).getDirection();
+                    asteroids->erase(asteroids->begin() + j);
 
                     ast::Vector2 offset1, offset2;
                     calculateOffsetVectors(dir, offset1, offset2);
@@ -148,29 +147,21 @@ GameState GameManager::checkCollisions()
                     Asteroid ast;
                     spawner.spawnAsteroid(pos + offset1, newDir1, 3.f, AsteroidSize::Small);
                     spawner.spawnAsteroid(pos + offset2, newDir2, 3.f, AsteroidSize::Small);
+                    score += 100;
                 }
-                asteroidsToRemove.insert(j);
+                else
+                {
+                    asteroids->erase(asteroids->begin() + j);
+                    score += 300;
+                }
                 break;
             }
         }
     }
 
-    // Destroy the astroids that we collided with
-    // We use cnt to account for the shifting of elements after erase
-    int cnt = 0;
-    for(auto& index : asteroidsToRemove)
-    {
-        if(asteroids->at(index - cnt).getSize() == AsteroidSize::Large)
-            score += 100;
-        else
-            score += 300;
-
-        asteroids->erase(asteroids->begin() + index - cnt);
-        cnt ++;
-    }
-
     if(enemySpawned)
     {
+        // Check enemy - player collisions
         std::string t = CircleCollider::checkCollision
         (
             player->getCircleCollider(), 
@@ -191,6 +182,7 @@ GameState GameManager::checkCollisions()
             return state;
         }
 
+        // Check enemy - bullet collisions
         for(int i = bullets->size()-1; i >= 0; i--)
         {
             std::string tag = CircleCollider::checkCollision
