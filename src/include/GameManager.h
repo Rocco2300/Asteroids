@@ -3,6 +3,7 @@
 #include "Ship.h"
 #include "Bullet.h"
 #include "Spawner.h"
+#include "Enemy.h"
 #include <vector>
 
 enum GameState
@@ -16,19 +17,25 @@ class GameManager
 private:
     GameState state;
     Spawner spawner;
-    sf::Clock clock;
-    sf::Time waveRespawnTime;
 
-    Ship *player; 
+    sf::Clock clock;
+    sf::Time waveEndTime;
+    sf::Time currentTime;
+    sf::Time enemySpawnCheck;
+    bool waveEnd;
+    bool enemySpawned;
+
     int score;
+    Ship *player; 
     std::vector<Asteroid> *asteroids;
     std::vector<Bullet> *bullets;
+    Enemy* enemy;
 public:
     GameManager();
     GameManager(Ship& player, std::vector<Asteroid>& asteroids,
-        std::vector<Bullet>& bullets);
+        std::vector<Bullet>& bullets, Enemy& enemy);
     void init(Ship& player, std::vector<Asteroid>& asteroids,
-        std::vector<Bullet>& bullets);
+        std::vector<Bullet>& bullets, Enemy& enemy);
     void reset();
     int getScore();
     void spawnAsteroids(int n);

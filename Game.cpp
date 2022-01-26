@@ -28,9 +28,8 @@ Game::Game()
     scoreText.setPosition({800.f, 0.f});
 
     ship = Ship(bullets);
-    enemy = Enemy({160.f, 300.f}, {1.f, 0.f}, 3);
 
-    manager.init(ship, asteroids, bullets);
+    manager.init(ship, asteroids, bullets, enemy);
     manager.spawnAsteroids(5);
     scoreText.setString(std::to_string(manager.getScore()));
 }
@@ -45,6 +44,7 @@ void Game::createWindow(std::string name, int frameLimit)
 void Game::update()
 {
     GameState state;
+    sf::Clock clk;
     sf::Clock clock;
 
     while (window.isOpen())
@@ -61,6 +61,7 @@ void Game::update()
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::R)
             {
                 reset();
+                // enemy = Enemy();
                 manager.reset();
                 state = GameState::Running;
             }
@@ -70,6 +71,7 @@ void Game::update()
         if(state != GameOver)
         {
             ship.update(dt);
+            enemy.update(dt);
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
@@ -84,20 +86,19 @@ void Game::update()
             {
                 gameOver = true;
                 std::cout << "Game over!" << std::endl;
-            }   
+            }
         }
 
         // Framerate counter
-        // #if DEBUG
-        // sf::Clock clk;
-        // sf::Time frameCntTime;
-        // frameCntTime = clk.getElapsedTime();
-        // if(frameCntTime.asSeconds() >= 1.f)
-        // {
-        //     std::cout << 1.f/dt.asSeconds() << std::endl;
-        //     frameCntTime = clk.restart();
-        // }
-        // #endif
+        #if DEBUG
+        sf::Time frameCntTime;
+        frameCntTime = clk.getElapsedTime();
+        if(frameCntTime.asSeconds() >= 1.f)
+        {
+            std::cout << 1.f/dt.asSeconds() << std::endl;
+            frameCntTime = clk.restart();
+        }
+        #endif
         draw();
     }
 }

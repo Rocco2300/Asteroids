@@ -8,33 +8,44 @@ GameManager::GameManager()
 }
 
 GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids, 
-    std::vector<Bullet>& bullets)
+    std::vector<Bullet>& bullets, Enemy& enemy)
 {
     srand(time(NULL));
     this->state = GameState::Running;
     this->spawner.init(player, asteroids);
     this->score = 0;
+    this->waveEnd = false;
+    this->enemySpawnCheck = clock.getElapsedTime();
+    this->enemySpawned = false;
 
     this->player = &player;
     this->asteroids = &asteroids;
     this->bullets = &bullets;
+    this->enemy = &enemy;
 }
 
 void GameManager::init(Ship& player, std::vector<Asteroid>& asteroids,
-    std::vector<Bullet>& bullets)
+    std::vector<Bullet>& bullets, Enemy& enemy)
 {
     srand(time(NULL));
     this->state = GameState::Running;
     this->spawner.init(player, asteroids);
     this->score = 0;
+    this->waveEnd = false;
+    this->enemySpawnCheck = clock.getElapsedTime();
+    this->enemySpawned = false;
 
     this->player = &player;
     this->asteroids = &asteroids;
     this->bullets = &bullets;
+    this->enemy = &enemy;
 }
 
 void GameManager::reset()
 {
+    this->enemySpawnCheck = clock.getElapsedTime();
+    this->enemySpawned = false;
+    *enemy = Enemy();
     score = 0;
     state = GameState::Running;
 }
@@ -46,6 +57,7 @@ int GameManager::getScore()
 
 void GameManager::spawnAsteroids(int n)
 {
+    waveEnd = false;
     asteroids->clear();
     spawner.spawnAsteroids(n);
 }
@@ -156,23 +168,82 @@ GameState GameManager::checkCollisions()
         asteroids->erase(asteroids->begin() + index - cnt);
         cnt ++;
     }
+
+    if(enemySpawned)
+    {
+        std::string t = CircleCollider::checkCollision
+        (
+            player->getCircleCollider(), 
+            enemy->getCircleCollider()
+        );
+
+        if(t == "enemy")
+        {
+            player->takeDamage();
+            player->reset();
+            *enemy = Enemy();
+            enemySpawned = false;
+            if(player->getLives() == 0)
+            {
+                state = GameOver;
+            }
+            enemySpawnCheck = clock.getElapsedTime();
+            return state;
+        }
+
+        for(int i = bullets->size()-1; i >= 0; i--)
+        {
+            std::string tag = CircleCollider::checkCollision
+            (
+                enemy->getCircleCollider(), 
+                bullets->at(i).getCircleCollider()
+            );
+
+            if(tag == "bullet")
+            {
+                bullets->erase(bullets->begin() + i);
+                *enemy = Enemy();
+                score += 500;
+                enemySpawned = false;
+                enemySpawnCheck = clock.getElapsedTime();
+                break;
+            }
+        }
+    }
     return state;
 }
 
 GameState GameManager::update()
 {
     GameState state = checkCollisions();
+    currentTime = clock.getElapsedTime();
     if(asteroids->empty())
     {
-        waveRespawnTime = clock.getElapsedTime();
-
-        if(waveRespawnTime.asSeconds() >= 3.f)
+        if(!waveEnd)
         {
-            std::cout << waveRespawnTime.asSeconds() << std::endl;
+            waveEndTime = clock.getElapsedTime();
+            waveEnd = true;
+        }
+
+        if((currentTime - waveEndTime).asSeconds() >= 3.f)
+        {
+            enemySpawnCheck = clock.getElapsedTime();
             spawnAsteroids(5);
         }
     }
-    else
-        clock.restart();
+
+    if((currentTime - enemySpawnCheck).asSeconds() >= 3.f && !enemySpawned && !waveEnd)
+    {
+        int chance = rand() % 100 + 1;
+        if(chance <= 50)
+        {
+            int randomHeight = rand() % (WINDOW_HEIGHT - 120) + 60;
+            int randomSide = rand() % 2;
+            ast::Vector2 pos(randomSide * WINDOW_WIDTH, randomHeight);
+            ast::Vector2 dir((randomSide == 0) ? 1.f : -1.f, 0.f);
+            *enemy = Enemy(pos, dir, 3.f);
+            enemySpawned = true;
+        }
+    }
     return state;
 }
