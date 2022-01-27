@@ -29,6 +29,7 @@ private:
     float dir;
     float maxVel;
     float turningSpeed;
+    float accelTime;
     float accel;
 public:
     Ship();

@@ -18,8 +18,9 @@ Ship::Ship(std::vector<Bullet>& bullets)
     dirOffset = -90.f;
     maxVel = 3.5f;
     turningSpeed = 300.f;
-    accel = 9.f;
-    
+    accelTime = .4f;
+    accel = maxVel / accelTime;
+
     this->texture = TextureLoader::getInstance()->getShipTexture();
     indexToCurrentFrame = 0;
     setSprite({(float)indexToCurrentFrame, 0.f}, {32.f, 45.f});
