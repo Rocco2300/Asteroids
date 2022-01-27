@@ -262,14 +262,14 @@ GameState GameManager::update()
     {
         if(!waveEnd)
         {
-            // Cap the exponential growth at wave 5
-            score += f((wave <= 5) ? wave : 5) * 100;
             waveEndTime = clock.getElapsedTime();
             waveEnd = true;
         }
 
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
         {
+            // Cap the exponential growth at wave 5
+            score += f((wave <= 5) ? wave : 5) * 100;
             wave++;
             enemySpawnCheck = clock.getElapsedTime();
             spawnAsteroids();
