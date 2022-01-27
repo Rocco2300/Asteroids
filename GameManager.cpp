@@ -47,7 +47,7 @@ void GameManager::spawnAsteroids(int n)
     spawner.spawnAsteroids(n);
 }
 
-void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
+void GameManager::calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
 {
     // Find 2 perpendicular vectors to dir to place new asteroid
     // when the larger asteroid is broken
@@ -60,7 +60,7 @@ void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector
     offset2 *= 16.f;
 }
 
-void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& newDir1, ast::Vector2& newDir2)
+void GameManager::randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& newDir1, ast::Vector2& newDir2)
 {
     // Get a 2 random angle offsets
     int rand1, rand2;
@@ -139,7 +139,8 @@ GameState GameManager::checkCollisions()
             if(tag == "asteroid")
             {
                 bullets->erase(bullets->begin() + i); 
-                if(asteroids->at(j).getSize() == AsteroidSize::Large)
+                AsteroidSize size = asteroids->at(j).getSize();
+                if(size != AsteroidSize::Small)
                 {
                     ast::Vector2 pos = asteroids->at(j).getPosition();
                     ast::Vector2 dir = asteroids->at(j).getDirection();
@@ -151,10 +152,11 @@ GameState GameManager::checkCollisions()
                     randomizeDirection(dir, offset1, newDir1, newDir2);
 
                     Asteroid ast;
-                    float speed1 = (rand() % 200 + 100) / 100.f;
-                    float speed2 = (rand() % 200 + 100) / 100.f;
-                    spawner.spawnAsteroid(pos + offset1, newDir1, speed1, AsteroidSize::Small);
-                    spawner.spawnAsteroid(pos + offset2, newDir2, speed2, AsteroidSize::Small);
+                    AsteroidSize newSize = (size == Large) ? Medium : Small;
+                    float speed1 = spawner.randomizeSpeed(newSize);
+                    float speed2 = spawner.randomizeSpeed(newSize);
+                    spawner.spawnAsteroid(pos + offset1, newDir1, speed1, newSize);
+                    spawner.spawnAsteroid(pos + offset2, newDir2, speed2, newSize);
                     score += 100;
                 }
                 else

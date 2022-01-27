@@ -6,7 +6,8 @@
 enum AsteroidSize
 {
     Small = 32,
-    Large = 64
+    Medium = 64,
+    Large = 128
 };
 
 class Asteroid : public Entity
@@ -19,7 +20,6 @@ private:
     float rotationSpeed;
 public:
     Asteroid();
-    // Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed);
     Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize size);
     void rotate(sf::Time dt);
     void update(sf::Time dt);

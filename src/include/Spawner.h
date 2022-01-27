@@ -12,6 +12,7 @@ public:
     Spawner();
     Spawner(Ship& ship, std::vector<Asteroid>& asteroids);
     void init(Ship& ship, std::vector<Asteroid>& asteroids);
+    float randomizeSpeed(AsteroidSize size);
     void spawnAsteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize size);
     void spawnAsteroids(int count);
 };

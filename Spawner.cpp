@@ -16,6 +16,23 @@ void Spawner::init(Ship& ship, std::vector<Asteroid>& asteroids)
     this->asteroids = &asteroids;
 }
 
+float Spawner::randomizeSpeed(AsteroidSize size)
+{
+    float speed;
+    switch(size)
+    {
+    case Large:
+        speed = (rand() % 100 + 50) / 100.f;
+        break;
+    case Medium:
+        speed = (rand() % 100 + 100) / 100.f;
+        break;
+    case Small:
+        speed = (rand() % 150 + 150) / 100.f;
+    }
+    return speed;
+}
+
 void Spawner::spawnAsteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize size)
 {
     asteroids->emplace_back(pos, dir, speed, size);
@@ -41,8 +58,7 @@ void Spawner::spawnAsteroids(int count)
         float randAng = rand() % 360;
         randDir.x = cos(randAng * PI/180);
         randDir.y = sin(randAng * PI/180);
-        float randomSpeed = ((rand() % 150) + 100) / 100.f;
-        std::cout << randomSpeed << std::endl;
-        spawnAsteroid(randPos, randDir, randomSpeed, AsteroidSize::Large);
+        float randSpeed = randomizeSpeed(AsteroidSize::Large);
+        spawnAsteroid(randPos, randDir, randSpeed, AsteroidSize::Large);
     }
 }
