@@ -30,12 +30,6 @@ private:
     std::vector<Asteroid> *asteroids;
     std::vector<Bullet> *bullets;
     Enemy* enemy;
-private:
-    void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, 
-        ast::Vector2& offset2);
-    void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, 
-        ast::Vector2& newDir1, ast::Vector2& newDir2);
-    void randomizeSpeed(AsteroidSize size, float& speed1, float& speed2);
 public:
     GameManager();
     GameManager(Ship& player, std::vector<Asteroid>& asteroids,

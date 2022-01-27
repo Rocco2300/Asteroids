@@ -47,7 +47,7 @@ void GameManager::spawnAsteroids(int n)
     spawner.spawnAsteroids(n);
 }
 
-void GameManager::calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
+void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
 {
     // Find 2 perpendicular vectors to dir to place new asteroid
     // when the larger asteroid is broken
@@ -60,7 +60,7 @@ void GameManager::calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1
     offset2 *= 16.f;
 }
 
-void GameManager::randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& newDir1, ast::Vector2& newDir2)
+void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& newDir1, ast::Vector2& newDir2)
 {
     // Get a 2 random angle offsets
     int rand1, rand2;

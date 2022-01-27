@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "TextureLoader.h"
 
-#define DEBUG true
+#define DEBUG false
 #define FRAMECOUNTER false
 
 Game::Game()

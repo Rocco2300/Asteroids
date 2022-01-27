@@ -8,6 +8,9 @@ class Spawner
 private:
     Ship* ship;
     std::vector<Asteroid>* asteroids;
+private:
+    bool isInPlayerBounds(ast::Vector2 p);
+    bool isNearAnotherAsteroid(ast::Vector2 p);
 public:
     Spawner();
     Spawner(Ship& ship, std::vector<Asteroid>& asteroids);

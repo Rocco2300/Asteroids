@@ -38,13 +38,28 @@ void Spawner::spawnAsteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, Ast
     asteroids->emplace_back(pos, dir, speed, size);
 }
 
-void Spawner::spawnAsteroids(int count)
+bool Spawner::isInPlayerBounds(ast::Vector2 p)
 {
     // Bounds of the grace area
     int x1 = ship->getPosition().x - 150;
     int y1 = ship->getPosition().y - 150;
     int x2 = ship->getPosition().x + 150;
     int y2 = ship->getPosition().y + 150;
+    return p.x > x1 && p.x < x2 && p.y > y1 && p.y < y2;
+}
+
+bool Spawner::isNearAnotherAsteroid(ast::Vector2 p)
+{
+    for(int i = 0; i < asteroids->size(); i++)
+    {
+        if(ast::Vector2::distance(p, asteroids->at(i).getPosition()) <= 200.f)
+            return true;
+    }
+}
+
+void Spawner::spawnAsteroids(int count)
+{
+    int cnt = 0;
     for(int i = 0; i < count; i++)
     {
         ast::Vector2 randPos, randDir;
@@ -53,12 +68,14 @@ void Spawner::spawnAsteroids(int count)
         {          
             randPos.x = rand() % WINDOW_WIDTH;
             randPos.y = rand() % WINDOW_HEIGHT;
-        } while (randPos.x > x1 && randPos.x < x2 && randPos.y > y1 && randPos.y < y2);
+            cnt ++;
+        } while (isInPlayerBounds(randPos) || isNearAnotherAsteroid(randPos));
 
         float randAng = rand() % 360;
         randDir.x = cos(randAng * PI/180);
         randDir.y = sin(randAng * PI/180);
         float randSpeed = randomizeSpeed(AsteroidSize::Large);
+        std::cout << randSpeed << std::endl;
         spawnAsteroid(randPos, randDir, randSpeed, AsteroidSize::Large);
     }
 }
