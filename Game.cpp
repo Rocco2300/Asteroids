@@ -6,6 +6,7 @@
 #include "TextureLoader.h"
 
 #define DEBUG true
+#define FRAMECOUNTER false
 
 Game::Game()
 { 
@@ -90,7 +91,7 @@ void Game::update()
         }
 
         // Framerate counter
-        #if DEBUG
+        #if FRAMECOUNTER
         sf::Time frameCntTime;
         frameCntTime = clk.getElapsedTime();
         if(frameCntTime.asSeconds() >= 1.f)

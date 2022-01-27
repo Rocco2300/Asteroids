@@ -15,9 +15,11 @@ private:
     AsteroidSize size;
     ast::Vector2 dir;
     float speed;
+    float dirOfRot;
+    float rotationSpeed;
 public:
     Asteroid();
-    Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed);
+    // Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed);
     Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize size);
     void rotate(sf::Time dt);
     void update(sf::Time dt);

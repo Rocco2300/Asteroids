@@ -64,8 +64,8 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
 {
     // Get a 2 random angle offsets
     int rand1, rand2;
-    rand1 = (rand() % 40) + 5;
-    rand2 = (rand() % 40) + 5;
+    rand1 = rand() % 90;
+    rand2 = rand() % 90;
     // Build the new direction vector
     float angleOfDir = atan2(dir.y, dir.x) * 180/PI;
     newDir1.x = cos((angleOfDir + rand1) * PI/180);
@@ -151,8 +151,10 @@ GameState GameManager::checkCollisions()
                     randomizeDirection(dir, offset1, newDir1, newDir2);
 
                     Asteroid ast;
-                    spawner.spawnAsteroid(pos + offset1, newDir1, 3.f, AsteroidSize::Small);
-                    spawner.spawnAsteroid(pos + offset2, newDir2, 3.f, AsteroidSize::Small);
+                    float speed1 = (rand() % 200 + 100) / 100.f;
+                    float speed2 = (rand() % 200 + 100) / 100.f;
+                    spawner.spawnAsteroid(pos + offset1, newDir1, speed1, AsteroidSize::Small);
+                    spawner.spawnAsteroid(pos + offset2, newDir2, speed2, AsteroidSize::Small);
                     score += 100;
                 }
                 else
@@ -224,11 +226,11 @@ GameState GameManager::update()
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
         {
             enemySpawnCheck = clock.getElapsedTime();
-            spawnAsteroids(1);
+            spawnAsteroids(numberOfAsteroids);
         }
     }
 
-    if((currentTime - enemySpawnCheck).asSeconds() >= 3.f && !enemy->isAlive() && !waveEnd)
+    if((currentTime - enemySpawnCheck).asSeconds() >= 10.f && !enemy->isAlive() && !waveEnd)
     {
         int chance = rand() % 100 + 1;
         if(chance <= 50)

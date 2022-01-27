@@ -41,6 +41,8 @@ void Spawner::spawnAsteroids(int count)
         float randAng = rand() % 360;
         randDir.x = cos(randAng * PI/180);
         randDir.y = sin(randAng * PI/180);
-        spawnAsteroid(randPos, randDir, 3.f, AsteroidSize::Large);
+        float randomSpeed = ((rand() % 150) + 100) / 100.f;
+        std::cout << randomSpeed << std::endl;
+        spawnAsteroid(randPos, randDir, randomSpeed, AsteroidSize::Large);
     }
 }
