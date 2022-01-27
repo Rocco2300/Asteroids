@@ -117,50 +117,8 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
     }
 }
 
-GameState GameManager::checkCollisions()
+void GameManager::checkBulletCollisions()
 {
-    // Check player - asteroid collisions
-    for(int i = asteroids->size()-1; i >= 0; i--)
-    {
-        std::string tag = CircleCollider::checkCollision
-                            (
-                                player->getCircleCollider(), 
-                                asteroids->at(i).getCircleCollider()
-                            );
-        if(tag == "asteroid")
-        {
-            player->takeDamage();
-            player->reset();
-            asteroids->erase(asteroids->begin() + i);
-            if(player->getLives() == 0)
-            {
-                state = GameOver;
-            }
-            return state;
-        }
-    }
-
-    // Check player - bullet collisions
-    for(int i = bullets->size()-1; i >= 0; i--)
-    {
-        std::string tag = CircleCollider::checkCollision
-                            (
-                                player->getCircleCollider(), 
-                                bullets->at(i).getCircleCollider()
-                            );       
-        if(tag == "enemyBullet")
-        {
-            player->takeDamage();
-            player->reset();
-            bullets->erase(bullets->begin() + i);
-            if(player->getLives() == 0)
-            {
-                state = GameOver;
-            }
-            return state;
-        }
-    }
-
     // Check the asteroid - bullet collisions
     for(int j = asteroids->size()-1; j >= 0; j--)
     {
@@ -206,26 +164,6 @@ GameState GameManager::checkCollisions()
 
     if(enemy->isAlive())
     {
-        // Check enemy - player collisions
-        std::string t = CircleCollider::checkCollision
-        (
-            player->getCircleCollider(), 
-            enemy->getCircleCollider()
-        );
-
-        if(t == "enemy")
-        {
-            player->takeDamage();
-            player->reset();
-            *enemy = Enemy();
-            if(player->getLives() == 0)
-            {
-                state = GameOver;
-            }
-            enemySpawnCheck = clock.getElapsedTime();
-            return state;
-        }
-
         // Check enemy - bullet collisions
         for(int i = bullets->size()-1; i >= 0; i--)
         {
@@ -245,6 +183,74 @@ GameState GameManager::checkCollisions()
             }
         }
     }
+}
+
+GameState GameManager::checkPlayerCollisions()
+{
+    // Check player - asteroid collisions
+    for(int i = asteroids->size()-1; i >= 0; i--)
+    {
+        std::string tag = CircleCollider::checkCollision
+                            (
+                                player->getCircleCollider(), 
+                                asteroids->at(i).getCircleCollider()
+                            );
+        if(tag == "asteroid")
+        {
+            player->takeDamage();
+            player->reset();
+            asteroids->erase(asteroids->begin() + i);
+            if(player->getLives() == 0)
+            {
+                state = GameOver;
+            }
+            return state;
+        }
+    }
+
+    // Check player - bullet collisions
+    for(int i = bullets->size()-1; i >= 0; i--)
+    {
+        std::string tag = CircleCollider::checkCollision
+                            (
+                                player->getCircleCollider(), 
+                                bullets->at(i).getCircleCollider()
+                            );       
+        if(tag == "enemyBullet")
+        {
+            player->takeDamage();
+            player->reset();
+            bullets->erase(bullets->begin() + i);
+            if(player->getLives() == 0)
+            {
+                state = GameOver;
+            }
+            return state;
+        }
+    }
+
+    if(enemy->isAlive())
+    {
+        // Check enemy - player collisions
+        std::string t = CircleCollider::checkCollision
+        (
+            player->getCircleCollider(), 
+            enemy->getCircleCollider()
+        );
+
+        if(t == "enemy")
+        {
+            player->takeDamage();
+            player->reset();
+            *enemy = Enemy();
+            if(player->getLives() == 0)
+            {
+                state = GameOver;
+            }
+            enemySpawnCheck = clock.getElapsedTime();
+            return state;
+        }
+    }
     return state;
 }
 
@@ -256,7 +262,8 @@ int f(int x)
 
 GameState GameManager::update()
 {
-    GameState state = checkCollisions();
+    checkBulletCollisions();
+    GameState state = checkPlayerCollisions();
     currentTime = clock.getElapsedTime();
     if(asteroids->empty())
     {

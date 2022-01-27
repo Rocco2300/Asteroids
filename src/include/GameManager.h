@@ -40,6 +40,7 @@ public:
     void reset();
     int getScore();
     void spawnAsteroids();
-    GameState checkCollisions();
+    void checkBulletCollisions();
+    GameState checkPlayerCollisions();
     GameState update();
 };
