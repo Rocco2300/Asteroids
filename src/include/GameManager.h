@@ -18,13 +18,14 @@ private:
     GameState state;
     Spawner spawner;
 
+    int score;
+    int numberOfAsteroids;
     sf::Clock clock;
     sf::Time waveEndTime;
     sf::Time currentTime;
     sf::Time enemySpawnCheck;
     bool waveEnd;
 
-    int score;
     Ship *player; 
     std::vector<Asteroid> *asteroids;
     std::vector<Bullet> *bullets;
@@ -32,8 +33,6 @@ private:
 public:
     GameManager();
     GameManager(Ship& player, std::vector<Asteroid>& asteroids,
-        std::vector<Bullet>& bullets, Enemy& enemy);
-    void init(Ship& player, std::vector<Asteroid>& asteroids,
         std::vector<Bullet>& bullets, Enemy& enemy);
     void reset();
     int getScore();

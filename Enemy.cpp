@@ -59,7 +59,7 @@ void Enemy::calculateShootDir(ast::Vector2 tp, ast::Vector2 tv)
 void Enemy::shoot()
 {
     Bullet bullet;
-    bullet = Bullet(pos + (shootDir * 24.f), shootDir, bulletSpeed);
+    bullet = Bullet(pos + (shootDir * 24.f), shootDir, bulletSpeed, "enemyBullet");
     bullets->push_back(bullet);
     shootCount--;
 }

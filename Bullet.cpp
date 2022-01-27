@@ -12,8 +12,8 @@ Bullet::Bullet()
     setCollider(4.f, pos);
 }
 
-Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed) 
-    : Entity(pos, "bullet")
+Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed, std::string tag) 
+    : Entity(pos, tag)
 {
     dirOffset = .0f;
     this->pos = pos;
@@ -24,14 +24,6 @@ Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed)
     this->texture = TextureLoader::getInstance()->getBulletTexture();
     setSprite();
     setCollider(4.f, pos);
-}
-
-void Bullet::respawn(ast::Vector2 pos, ast::Vector2 dir, float speed)
-{
-    this->pos = pos;
-    this->dir = dir;
-    this->speed = speed;
-    despawned = false;
 }
 
 void Bullet::update(sf::Time dt)

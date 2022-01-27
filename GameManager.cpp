@@ -16,27 +16,14 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
     this->score = 0;
     this->waveEnd = false;
     this->enemySpawnCheck = clock.getElapsedTime();
+    this->numberOfAsteroids = 3;
 
     this->player = &player;
     this->asteroids = &asteroids;
     this->bullets = &bullets;
     this->enemy = &enemy;
-}
 
-void GameManager::init(Ship& player, std::vector<Asteroid>& asteroids,
-    std::vector<Bullet>& bullets, Enemy& enemy)
-{
-    srand(time(NULL));
-    this->state = GameState::Running;
-    this->spawner.init(player, asteroids);
-    this->score = 0;
-    this->waveEnd = false;
-    this->enemySpawnCheck = clock.getElapsedTime();
-
-    this->player = &player;
-    this->asteroids = &asteroids;
-    this->bullets = &bullets;
-    this->enemy = &enemy;
+    spawnAsteroids(numberOfAsteroids);
 }
 
 void GameManager::reset()
@@ -45,6 +32,7 @@ void GameManager::reset()
     *enemy = Enemy();
     score = 0;
     state = GameState::Running;
+    spawnAsteroids(numberOfAsteroids);
 }
 
 int GameManager::getScore()
@@ -125,7 +113,7 @@ GameState GameManager::checkCollisions()
                                 player->getCircleCollider(), 
                                 bullets->at(i).getCircleCollider()
                             );       
-        if(tag == "bullet")
+        if(tag == "enemyBullet")
         {
             player->takeDamage();
             player->reset();

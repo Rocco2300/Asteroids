@@ -124,7 +124,7 @@ void Ship::shoot()
         if(shootCooldown.asSeconds() >= .005f)
         {
             Bullet bullet;
-            bullet = Bullet(gunPos, gunDir, 10.f);
+            bullet = Bullet(gunPos, gunDir, 10.f, "bullet");
             bullets->push_back(bullet);
             shootCooldown = clock.restart();
         }

@@ -29,8 +29,7 @@ Game::Game()
 
     ship = Ship(bullets);
 
-    manager.init(ship, asteroids, bullets, enemy);
-    manager.spawnAsteroids(1);
+    manager = GameManager(ship, asteroids, bullets, enemy);
     scoreText.setString(std::to_string(manager.getScore()));
 }
 
@@ -111,9 +110,7 @@ void Game::reset()
     ast::Vector2 randPos;
     ast::Vector2 randDir;
     Asteroid asteroid;
-    asteroids.clear();
     bullets.clear();
-    manager.spawnAsteroids(1);
 }
 
 template <typename T>

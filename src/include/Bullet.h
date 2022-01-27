@@ -12,8 +12,7 @@ private:
     bool despawned;
 public:
     Bullet();
-    Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed);
-    void respawn(ast::Vector2 pos, ast::Vector2 dir, float speed);
+    Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed, std::string tag);
     void update(sf::Time dt);
     void despawn();
     void setDespawned(bool value);
