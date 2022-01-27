@@ -248,6 +248,12 @@ GameState GameManager::checkCollisions()
     return state;
 }
 
+// 3 ^ (x - 1) + 3;
+int f(int x)
+{
+    return std::pow(3, x - 1) + 3;
+}
+
 GameState GameManager::update()
 {
     GameState state = checkCollisions();
@@ -256,6 +262,8 @@ GameState GameManager::update()
     {
         if(!waveEnd)
         {
+            // Cap the exponential growth at wave 5
+            score += f((wave <= 5) ? wave : 5) * 100;
             waveEndTime = clock.getElapsedTime();
             waveEnd = true;
         }
