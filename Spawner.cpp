@@ -38,6 +38,22 @@ void Spawner::spawnAsteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, Ast
     asteroids->emplace_back(pos, dir, speed, size);
 }
 
+void Spawner::spawnEnemy(Enemy* enemy, std::vector<Bullet>* bullets)
+{
+    int randomSide = rand() % 2;
+    int y1 = ship->getPosition().y - 100;
+    int y2 = ship->getPosition().y + 100;
+    int randomHeight;
+    do
+    {
+        randomHeight = rand() % (WINDOW_HEIGHT - 120) + 60;     
+    } while (randomHeight < y1 && randomHeight > y2);
+    
+    ast::Vector2 pos(randomSide * WINDOW_WIDTH, randomHeight);
+    ast::Vector2 dir((randomSide == 0) ? 1.f : -1.f, 0.f);
+    *enemy = Enemy(pos, dir, 3.f, bullets);
+}
+
 bool Spawner::isInPlayerBounds(ast::Vector2 p)
 {
     // Bounds of the grace area
@@ -55,6 +71,7 @@ bool Spawner::isNearAnotherAsteroid(ast::Vector2 p)
         if(ast::Vector2::distance(p, asteroids->at(i).getPosition()) <= 200.f)
             return true;
     }
+    return false;
 }
 
 void Spawner::spawnAsteroids(int count)
@@ -75,7 +92,6 @@ void Spawner::spawnAsteroids(int count)
         randDir.x = cos(randAng * PI/180);
         randDir.y = sin(randAng * PI/180);
         float randSpeed = randomizeSpeed(AsteroidSize::Large);
-        std::cout << randSpeed << std::endl;
         spawnAsteroid(randPos, randDir, randSpeed, AsteroidSize::Large);
     }
 }

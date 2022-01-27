@@ -237,11 +237,7 @@ GameState GameManager::update()
         int chance = rand() % 100 + 1;
         if(chance <= 50)
         {
-            int randomHeight = rand() % (WINDOW_HEIGHT - 120) + 60;
-            int randomSide = rand() % 2;
-            ast::Vector2 pos(randomSide * WINDOW_WIDTH, randomHeight);
-            ast::Vector2 dir((randomSide == 0) ? 1.f : -1.f, 0.f);
-            *enemy = Enemy(pos, dir, 3.f, bullets);
+            spawner.spawnEnemy(enemy, bullets);
         }
     }
     return state;
