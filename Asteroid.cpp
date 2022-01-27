@@ -17,7 +17,9 @@ Asteroid::Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize
     this->size = size;
 
     int index = rand() % 3;
-    int startY = (size == Large) ? 0.f : (size == Medium) ? 128.f : 192.f;
+    int startY = (size == Large) ? 0.f 
+               : (size == Medium) ? 128.f 
+               : 192.f;
     setSprite({(float)index * size, (float)startY}, {(float)size, (float)size});
     setCollider(size / 2, pos);
     setOrigin({(float)size / 2, (float)size / 2});

@@ -16,9 +16,9 @@ Ship::Ship(std::vector<Bullet>& bullets)
     // Initializing the values
     hp = 3;
     dirOffset = -90.f;
-    maxVel = 4.f;
+    maxVel = 3.5f;
     turningSpeed = 300.f;
-    accel = 10.f;
+    accel = 9.f;
     
     this->texture = TextureLoader::getInstance()->getShipTexture();
     indexToCurrentFrame = 0;

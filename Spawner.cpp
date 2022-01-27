@@ -74,10 +74,10 @@ bool Spawner::isNearAnotherAsteroid(ast::Vector2 p)
     return false;
 }
 
-void Spawner::spawnAsteroids(int count)
+void Spawner::spawnAsteroids(const std::vector<AsteroidSize>& toSpawn)
 {
     int cnt = 0;
-    for(int i = 0; i < count; i++)
+    for(int i = 0; i < toSpawn.size(); i++)
     {
         ast::Vector2 randPos, randDir;
         // Do not spawn asteroids near player
@@ -91,7 +91,7 @@ void Spawner::spawnAsteroids(int count)
         float randAng = rand() % 360;
         randDir.x = cos(randAng * PI/180);
         randDir.y = sin(randAng * PI/180);
-        float randSpeed = randomizeSpeed(AsteroidSize::Large);
-        spawnAsteroid(randPos, randDir, randSpeed, AsteroidSize::Large);
+        float randSpeed = randomizeSpeed(toSpawn[i]);
+        spawnAsteroid(randPos, randDir, randSpeed, toSpawn[i]);
     }
 }

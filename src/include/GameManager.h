@@ -18,25 +18,28 @@ private:
     GameState state;
     Spawner spawner;
 
+    int wave;
     int score;
-    int numberOfAsteroids;
     sf::Clock clock;
     sf::Time waveEndTime;
     sf::Time currentTime;
     sf::Time enemySpawnCheck;
+    std::vector<AsteroidSize> toSpawn;
     bool waveEnd;
 
     Ship *player; 
     std::vector<Asteroid> *asteroids;
     std::vector<Bullet> *bullets;
     Enemy* enemy;
+private:
+    void buildAsteroidWaveList();
 public:
     GameManager();
     GameManager(Ship& player, std::vector<Asteroid>& asteroids,
         std::vector<Bullet>& bullets, Enemy& enemy);
     void reset();
     int getScore();
-    void spawnAsteroids(int n);
+    void spawnAsteroids();
     GameState checkCollisions();
     GameState update();
 };

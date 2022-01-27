@@ -16,23 +16,24 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
     this->score = 0;
     this->waveEnd = false;
     this->enemySpawnCheck = clock.getElapsedTime();
-    this->numberOfAsteroids = 3;
+    this->wave = 1;
 
     this->player = &player;
     this->asteroids = &asteroids;
     this->bullets = &bullets;
     this->enemy = &enemy;
 
-    spawnAsteroids(numberOfAsteroids);
+    spawnAsteroids();
 }
 
 void GameManager::reset()
 {
+    wave = 1;
     this->enemySpawnCheck = clock.getElapsedTime();
     *enemy = Enemy();
     score = 0;
     state = GameState::Running;
-    spawnAsteroids(numberOfAsteroids);
+    spawnAsteroids();
 }
 
 int GameManager::getScore()
@@ -40,11 +41,45 @@ int GameManager::getScore()
     return score;
 }
 
-void GameManager::spawnAsteroids(int n)
+void GameManager::buildAsteroidWaveList()
 {
+    toSpawn.clear();
+    std::vector<int> weights = {50, 20, 5};
+
+    int sum = 0, index = 0;
+    int target = 60 + (wave - 1) * 35;
+    target = (target > 180) ? 180 : target;
+
+    while(sum != target && index < 3)
+    {
+        if(sum + weights[index] <= target)
+        {
+            sum += weights[index];
+            switch(weights[index])
+            {
+            case 50:
+                toSpawn.push_back(AsteroidSize::Large);
+                break;
+            case 20:
+                toSpawn.push_back(AsteroidSize::Medium);
+                break;
+            case 5:
+                toSpawn.push_back(AsteroidSize::Small);
+                break;
+            }
+        }
+        else
+            index++;
+    }
+}
+
+void GameManager::spawnAsteroids()
+{
+    std::cout << wave << std::endl;
+    buildAsteroidWaveList();
     waveEnd = false;
     asteroids->clear();
-    spawner.spawnAsteroids(n);
+    spawner.spawnAsteroids(toSpawn);
 }
 
 void calculateOffsetVectors(ast::Vector2 dir, ast::Vector2& offset1, ast::Vector2& offset2)
@@ -157,7 +192,7 @@ GameState GameManager::checkCollisions()
                     float speed2 = spawner.randomizeSpeed(newSize);
                     spawner.spawnAsteroid(pos + offset1, newDir1, speed1, newSize);
                     spawner.spawnAsteroid(pos + offset2, newDir2, speed2, newSize);
-                    score += 100;
+                    score += (size == AsteroidSize::Large) ? 50 : 100;
                 }
                 else
                 {
@@ -227,12 +262,13 @@ GameState GameManager::update()
 
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
         {
+            wave++;
             enemySpawnCheck = clock.getElapsedTime();
-            spawnAsteroids(numberOfAsteroids);
+            spawnAsteroids();
         }
     }
 
-    if((currentTime - enemySpawnCheck).asSeconds() >= 10.f && !enemy->isAlive() && !waveEnd)
+    if((currentTime - enemySpawnCheck).asSeconds() >= 10.f && !enemy->isAlive() && !waveEnd && wave != 1)
     {
         int chance = rand() % 100 + 1;
         if(chance <= 50)

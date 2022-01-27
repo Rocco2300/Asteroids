@@ -19,6 +19,6 @@ public:
     float randomizeSpeed(AsteroidSize size);
     void spawnAsteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize size);
     void spawnEnemy(Enemy* enemy, std::vector<Bullet>* bullets);
-    void spawnAsteroids(int count);
+    void spawnAsteroids(const std::vector<AsteroidSize>& toSpawn);
 };
 

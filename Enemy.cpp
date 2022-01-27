@@ -70,7 +70,7 @@ void Enemy::update(sf::Time dt, ast::Vector2 tp, ast::Vector2 tv)
     vel = dir * frameSpeed * dt.asSeconds();
     Entity::move(vel);
     currentTime = clock.getElapsedTime();
-    if((currentTime - shootTime).asSeconds() >= 3.f)
+    if((currentTime - shootTime).asSeconds() >= 2.5f)
     {
         if(shootCount == 0)
             predict = true;

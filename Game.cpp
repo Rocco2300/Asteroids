@@ -65,6 +65,10 @@ void Game::update()
                 manager.reset();
                 state = GameState::Running;
             }
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::N)
+            {
+                asteroids.clear();
+            }
         }
 
         state = manager.update();
