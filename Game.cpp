@@ -203,8 +203,13 @@ void Game::draw()
     {
         window.draw(overlaySpr);
         window.draw(gameOverText);
+        scoreText.setString("Score");
         scoreText.setOrigin(scoreText.getLocalBounds().width / 2, scoreText.getLocalBounds().height / 2);
-        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 100.f});
+        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+        window.draw(scoreText);
+        scoreText.setString(std::to_string(manager.getScore()));
+        scoreText.setOrigin(scoreText.getLocalBounds().width / 2, scoreText.getLocalBounds().height / 2);
+        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 75.f});
         window.draw(scoreText);
     }
     window.display();

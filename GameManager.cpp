@@ -75,7 +75,6 @@ void GameManager::buildAsteroidWaveList()
 
 void GameManager::spawnAsteroids()
 {
-    std::cout << wave << std::endl;
     buildAsteroidWaveList();
     waveEnd = false;
     asteroids->clear();
