@@ -12,15 +12,18 @@ class Game
 {
 private:
     GameManager manager;
-    bool gameOver = false;
+    bool gameOver;
 
     sf::RenderWindow window;
     sf::Texture* shipTex;
     sf::Texture* astTex;
     sf::Texture* blltTex;
+    sf::Texture overlay;
+    sf::Sprite overlaySpr;
 
     sf::Font font;
     sf::Text scoreText;
+    sf::Text gameOverText;
 
     Ship ship;
     Enemy enemy;

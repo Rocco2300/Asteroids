@@ -19,6 +19,11 @@ Game::Game()
     shipHpSprite.setTextureRect({0, 0, 32, 32});
     shipHpSprite.setOrigin({16.f, 16.f});
     shipHpSprite.setScale({.75f, .75f});
+
+    if(!overlay.loadFromFile("img/Overlay.png"));
+    overlay.setRepeated(false);
+    overlaySpr.setTexture(overlay);
+    overlaySpr.setPosition({0.f, 0.f});
     
     if(!font.loadFromFile("fonts/ARCADECLASSIC.TTF"))
         std::cerr << "Error loading font!" << std::endl;
@@ -28,8 +33,16 @@ Game::Game()
     scoreText.setOrigin({30.f, 0.f});
     scoreText.setPosition({800.f, 0.f});
 
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(54);
+    gameOverText.setFillColor(sf::Color::White);
+    gameOverText.setString("Game Over!");
+    gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
+    gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
+
     ship = Ship(bullets);
 
+    gameOver = false;
     manager = GameManager(ship, asteroids, bullets, enemy);
     scoreText.setString(std::to_string(manager.getScore()));
 }
@@ -71,9 +84,15 @@ void Game::update()
             }
         }
 
-        state = manager.update();
-        if(state != GameOver)
+        if(!gameOver)
         {
+            state = manager.update();
+            if(state == GameState::GameOver)
+            {
+                gameOver = true;
+                continue;
+            }
+
             ship.update(dt);
             if(enemy.isAlive())
                 enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
@@ -86,12 +105,6 @@ void Game::update()
             float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
             scoreText.setOrigin({offset, 0.f});
             scoreText.setString(std::to_string(manager.getScore()));
-
-            if(state == GameState::GameOver && !gameOver)
-            {
-                gameOver = true;
-                std::cout << "Game over!" << std::endl;
-            }
         }
 
         // Framerate counter
@@ -110,6 +123,7 @@ void Game::update()
 
 void Game::reset()
 {
+    gameOver = false;
     ship = Ship(bullets);
     int randAng;
     ast::Vector2 randPos;
@@ -180,7 +194,18 @@ void Game::draw()
     drawDebugEntities(asteroids);
     drawDebugEntities(bullets);
     #endif
-    window.draw(scoreText);
-    drawLives();
+    if(!gameOver)
+    {
+        window.draw(scoreText);
+        drawLives();
+    }
+    else
+    {
+        window.draw(overlaySpr);
+        window.draw(gameOverText);
+        scoreText.setOrigin(scoreText.getLocalBounds().width / 2, scoreText.getLocalBounds().height / 2);
+        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 100.f});
+        window.draw(scoreText);
+    }
     window.display();
 }
