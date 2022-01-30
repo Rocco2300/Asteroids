@@ -181,16 +181,20 @@ void Game::draw()
     }
     else
     {
+        sf::Text finalScoreText;
+        finalScoreText.setFont(*font);
+        finalScoreText.setCharacterSize(36);
+        finalScoreText.setFillColor(sf::Color::White);
         window.draw(overlaySpr);
         window.draw(gameOverText);
-        scoreText.setString("Score");
-        scoreText.setOrigin(scoreText.getLocalBounds().width / 2, scoreText.getLocalBounds().height / 2);
-        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
-        window.draw(scoreText);
-        scoreText.setString(std::to_string(manager.getScore()));
-        scoreText.setOrigin(scoreText.getLocalBounds().width / 2, scoreText.getLocalBounds().height / 2);
-        scoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 75.f});
-        window.draw(scoreText);
+        finalScoreText.setString("Score");
+        finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
+        finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+        window.draw(finalScoreText);
+        finalScoreText.setString(std::to_string(manager.getScore()));
+        finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
+        finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 75.f});
+        window.draw(finalScoreText);
     }
     window.display();
 }

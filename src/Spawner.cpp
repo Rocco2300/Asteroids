@@ -86,7 +86,7 @@ void Spawner::spawnAsteroids(const std::vector<AsteroidSize>& toSpawn)
             randPos.x = rand() % WINDOW_WIDTH;
             randPos.y = rand() % WINDOW_HEIGHT;
             cnt ++;
-        } while (isInPlayerBounds(randPos) || isNearAnotherAsteroid(randPos));
+        } while ((isInPlayerBounds(randPos) || isNearAnotherAsteroid(randPos)) || cnt < 100);
 
         float randAng = rand() % 360;
         randDir.x = cos(randAng * PI/180);
