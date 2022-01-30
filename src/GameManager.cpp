@@ -198,11 +198,12 @@ GameState GameManager::checkPlayerCollisions()
         {
             player->takeDamage();
             player->reset();
-            asteroids->erase(asteroids->begin() + i);
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
+            else
+                asteroids->erase(asteroids->begin() + i);
             return state;
         }
     }
@@ -219,11 +220,12 @@ GameState GameManager::checkPlayerCollisions()
         {
             player->takeDamage();
             player->reset();
-            bullets->erase(bullets->begin() + i);
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
+            else
+                bullets->erase(bullets->begin() + i);
             return state;
         }
     }
@@ -241,11 +243,12 @@ GameState GameManager::checkPlayerCollisions()
         {
             player->takeDamage();
             player->reset();
-            *enemy = Enemy();
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
+            else    
+                *enemy = Enemy();
             enemySpawnCheck = clock.getElapsedTime();
             return state;
         }

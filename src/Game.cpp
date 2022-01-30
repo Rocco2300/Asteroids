@@ -51,7 +51,7 @@ void Game::createWindow(std::string name, int frameLimit)
 {
     window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), name);
     window.setFramerateLimit(frameLimit);
-    window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(false);
 }
 
 void Game::update()

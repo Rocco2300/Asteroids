@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "Ship.h"
 #include "AssetLoader.h"
+#include <thread>
 
 Ship::Ship() { }
 
@@ -23,6 +24,12 @@ Ship::Ship(std::vector<Bullet>& bullets)
 
     AssetLoader* assetLoader = AssetLoader::getInstance();
     this->texture = assetLoader->getShipTexture();
+
+    // if(!soundBuffer.loadFromFile("sounds/Laser_Shoot2.wav"))
+    //     std::cerr << "sdfsdgfsd" << std::endl;
+    // shootSound.setBuffer(soundBuffer);
+    // shootSound.setVolume(100);
+    // shootSound.setLoop(false);
 
     indexToCurrentFrame = 0;
     setSprite({(float)indexToCurrentFrame, 0.f}, {32.f, 45.f});

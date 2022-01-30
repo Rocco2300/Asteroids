@@ -22,6 +22,8 @@ private:
     sf::Time timeBetweenFrames;
     int indexToCurrentFrame;
 
+    // sf::SoundBuffer soundBuffer;
+    // sf::Sound shootSound;
     ast::Vector2 gunDir;
     ast::Vector2 gunPos;
     std::vector<Bullet> *bullets;
