@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Constants.h"
 #include "Ship.h"
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 
 Ship::Ship() { }
 
@@ -21,7 +21,7 @@ Ship::Ship(std::vector<Bullet>& bullets)
     accelTime = .4f;
     accel = maxVel / accelTime;
 
-    this->texture = TextureLoader::getInstance()->getShipTexture();
+    this->texture = AssetLoader::getInstance()->getShipTexture();
     indexToCurrentFrame = 0;
     setSprite({(float)indexToCurrentFrame, 0.f}, {32.f, 45.f});
     setCollider(16.f, pos);

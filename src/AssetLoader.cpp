@@ -1,17 +1,17 @@
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 
-TextureLoader* TextureLoader::instance = nullptr;
+AssetLoader* AssetLoader::instance = nullptr;
 
-TextureLoader* TextureLoader::getInstance()
+AssetLoader* AssetLoader::getInstance()
 {
     if (instance == nullptr)
     {
-        instance = new TextureLoader();
+        instance = new AssetLoader();
     }
     return instance;
 }
 
-void TextureLoader::loadTextures()
+void AssetLoader::loadTextures()
 {
     if(!ShipTexture.loadFromFile("img/Ship.png"))
         std::cerr << "Loading ship texture failed!" << std::endl;
@@ -27,27 +27,27 @@ void TextureLoader::loadTextures()
     EnemyTexture.setRepeated(false);
 }
 
-void TextureLoader::destroyInstance()
+void AssetLoader::destroyInstance()
 {
     delete instance;
 }
 
-sf::Texture* TextureLoader::getShipTexture()
+sf::Texture* AssetLoader::getShipTexture()
 {
     return &ShipTexture;
 }
 
-sf::Texture* TextureLoader::getBulletTexture()
+sf::Texture* AssetLoader::getBulletTexture()
 {
     return &BulletTexture;
 }
 
-sf::Texture* TextureLoader::getAsteroidTexture()
+sf::Texture* AssetLoader::getAsteroidTexture()
 {
     return &AsteroidTexture;
 }
 
-sf::Texture* TextureLoader::getEnemyTexture()
+sf::Texture* AssetLoader::getEnemyTexture()
 {
     return &EnemyTexture;
 }

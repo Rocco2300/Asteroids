@@ -7,10 +7,10 @@
 This is a singleton class used for loading the 
 textures needed just once
 */
-class TextureLoader
+class AssetLoader
 {
 public:
-    static TextureLoader* getInstance();
+    static AssetLoader* getInstance();
     void destroyInstance();
     void loadTextures();
 
@@ -19,8 +19,8 @@ public:
     sf::Texture* getAsteroidTexture();
     sf::Texture* getEnemyTexture();
 private:
-    TextureLoader() { }
-    static TextureLoader* instance;
+    AssetLoader() { }
+    static AssetLoader* instance;
 
     sf::Texture ShipTexture;
     sf::Texture BulletTexture;

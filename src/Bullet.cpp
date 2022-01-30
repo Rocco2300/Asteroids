@@ -1,13 +1,13 @@
 #include <iostream>
 #include "Bullet.h"
 #include "Constants.h"
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 
 Bullet::Bullet() 
     : Entity(pos, "bullet")
 { 
     despawned = true;
-    this->texture = TextureLoader::getInstance()->getBulletTexture();
+    this->texture = AssetLoader::getInstance()->getBulletTexture();
     setSprite();
     setCollider(4.f, pos);
 }
@@ -21,7 +21,7 @@ Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed, std::string tag)
     this->speed = speed;
     despawned = false;
     
-    this->texture = TextureLoader::getInstance()->getBulletTexture();
+    this->texture = AssetLoader::getInstance()->getBulletTexture();
     setSprite();
     setCollider(4.f, pos);
 }

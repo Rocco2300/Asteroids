@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 #include <cmath>
 
 Enemy::Enemy()
@@ -21,7 +21,7 @@ Enemy::Enemy(ast::Vector2 pos, ast::Vector2 dir, float speed,
     this->predict = false;
     this->shootCount = 2;
 
-    this->texture = TextureLoader::getInstance()->getEnemyTexture();
+    this->texture = AssetLoader::getInstance()->getEnemyTexture();
     setSprite();
     setCollider(18.f, pos);
 }

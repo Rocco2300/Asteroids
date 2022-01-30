@@ -3,7 +3,7 @@
 #include <cmath>
 #include <ctime>
 #include "Game.h"
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 
 #define DEBUG false
 #define FRAMECOUNTER false
@@ -12,9 +12,9 @@ Game::Game()
 { 
     srand(time(NULL));
     createWindow("Asteroids", 60);
-    TextureLoader::getInstance()->loadTextures();
+    AssetLoader::getInstance()->loadTextures();
 
-    shipHpTexture = TextureLoader::getInstance()->getShipTexture();
+    shipHpTexture = AssetLoader::getInstance()->getShipTexture();
     shipHpSprite.setTexture(*shipHpTexture);
     shipHpSprite.setTextureRect({0, 0, 32, 32});
     shipHpSprite.setOrigin({16.f, 16.f});
@@ -68,7 +68,7 @@ void Game::update()
         {
             if (event.type == sf::Event::Closed)
             {
-                TextureLoader::getInstance()->destroyInstance();
+                AssetLoader::getInstance()->destroyInstance();
                 window.close();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::R)

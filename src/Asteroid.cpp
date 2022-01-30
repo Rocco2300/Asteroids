@@ -1,5 +1,5 @@
 #include "Asteroid.h"
-#include "TextureLoader.h"
+#include "AssetLoader.h"
 
 Asteroid::Asteroid() { }
 
@@ -13,7 +13,7 @@ Asteroid::Asteroid(ast::Vector2 pos, ast::Vector2 dir, float speed, AsteroidSize
     this->dirOfRot = (rand() % 2 - .5f) * 2.f;
     this->rotationSpeed = (rand() % 60 + 30.f) * speed;
 
-    this->texture = TextureLoader::getInstance()->getAsteroidTexture();
+    this->texture = AssetLoader::getInstance()->getAsteroidTexture();
     this->size = size;
 
     int index = rand() % 3;
