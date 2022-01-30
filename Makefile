@@ -1,12 +1,13 @@
 CXX = g++
 TARGET = a
 
-OBJSRC = src/
+SRC = src/
+OBJSRC = obj/
 LIBSRC = src/lib
 INCLSRC = src/include
 
-SRCS = $(wildcard *.cpp)
-OBJS = $(SRCS:%.cpp=src/%.o)
+SRCS = $(wildcard $(SRC)*.cpp)
+OBJS = $(SRCS:$(SRC)%.cpp=$(OBJSRC)%.o)
 DEPS = $(wildcard $(INCLSRC)*.h)
 
 .PHONY: all clean
@@ -14,9 +15,9 @@ DEPS = $(wildcard $(INCLSRC)*.h)
 $(TARGET): $(OBJS)
 	$(CXX) $^ -o $@ -L $(LIBSRC) -l sfml-graphics -l sfml-window -l sfml-system
 
-$(OBJSRC)%.o: %.cpp $(DEPS)
+$(OBJSRC)%.o: $(SRC)%.cpp $(DEPS)
 	$(CXX) -I $(INCLSRC) -c -g $< -o $@
 
 clean: 
-	del /f src\\*.o
+	del /f obj\\*.o
 	del /f a.exe
