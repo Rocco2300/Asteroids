@@ -5,35 +5,35 @@
 #include "Game.h"
 #include "AssetLoader.h"
 
-#define DEBUG false
 #define FRAMECOUNTER false
 
 Game::Game()
 { 
     srand(time(NULL));
     createWindow("Asteroids", 60);
-    AssetLoader::getInstance()->loadTextures();
-
-    shipHpTexture = AssetLoader::getInstance()->getShipTexture();
+    AssetLoader* assetLoader = AssetLoader::getInstance();
+    assetLoader->loadFont();
+    assetLoader->loadTextures();
+    // assetLoader->loadSounds();
+    
+    shipHpTexture = assetLoader->getShipTexture();
     shipHpSprite.setTexture(*shipHpTexture);
     shipHpSprite.setTextureRect({0, 0, 32, 32});
     shipHpSprite.setOrigin({16.f, 16.f});
     shipHpSprite.setScale({.75f, .75f});
 
-    if(!overlay.loadFromFile("img/Overlay.png"));
-    overlay.setRepeated(false);
-    overlaySpr.setTexture(overlay);
+    overlay = assetLoader->getOverlayTexture();
+    overlaySpr.setTexture(*overlay);
     overlaySpr.setPosition({0.f, 0.f});
-    
-    if(!font.loadFromFile("fonts/ARCADECLASSIC.TTF"))
-        std::cerr << "Error loading font!" << std::endl;
-    scoreText.setFont(font);
+
+    font = assetLoader->getFont();
+    scoreText.setFont(*font);
     scoreText.setCharacterSize(36);
     scoreText.setFillColor(sf::Color::White);
     scoreText.setOrigin({30.f, 0.f});
     scoreText.setPosition({800.f, 0.f});
 
-    gameOverText.setFont(font);
+    gameOverText.setFont(*font);
     gameOverText.setCharacterSize(54);
     gameOverText.setFillColor(sf::Color::White);
     gameOverText.setString("Game Over!");
@@ -125,10 +125,6 @@ void Game::reset()
 {
     gameOver = false;
     ship = Ship(bullets);
-    int randAng;
-    ast::Vector2 randPos;
-    ast::Vector2 randDir;
-    Asteroid asteroid;
     bullets.clear();
 }
 
@@ -144,19 +140,9 @@ void Game::updateEntities(std::vector<T>& v, sf::Time dt)
 template <typename T>
 void Game::drawEntities(std::vector<T>& v)
 {
-    bool ceva = false;
     for(size_t i = 0; i < v.size(); i++)
     {
-        window.draw(v[i].getSprite());
-    }
-}
-
-template <typename T>
-void Game::drawDebugEntities(std::vector<T>& v)
-{
-    for(size_t i = 0; i < v.size(); i++)
-    {
-        window.draw(v[i].getDebugCircle());
+        window.draw(v[i]);
     }
 }
 
@@ -184,16 +170,10 @@ void Game::checkDespawnedBullets()
 void Game::draw()
 {
     window.clear();
-    window.draw(ship.getSprite());
-    window.draw(enemy.getSprite());
+    window.draw(ship);
+    window.draw(enemy);
     drawEntities(asteroids);
     drawEntities(bullets);
-    #if DEBUG 
-    window.draw(ship.getDebugCircle());
-    window.draw(enemy.getDebugCircle());
-    drawDebugEntities(asteroids);
-    drawDebugEntities(bullets);
-    #endif
     if(!gameOver)
     {
         window.draw(scoreText);

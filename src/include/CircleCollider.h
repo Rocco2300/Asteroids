@@ -3,7 +3,7 @@
 #include <string>
 #include "Vector2.h"
 
-class CircleCollider
+class CircleCollider : public sf::Drawable
 {
 private:
     sf::CircleShape debug;
@@ -23,6 +23,6 @@ public:
     float getRadius();
     bool isEnabled();
     std::string getTag();
-    sf::CircleShape getDebugCircle();
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     static std::string checkCollision(CircleCollider first, CircleCollider second);
 };

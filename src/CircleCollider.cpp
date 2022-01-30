@@ -51,7 +51,11 @@ float CircleCollider::getY() { return pos.y; }
 float CircleCollider::getRadius() { return radius; }
 bool CircleCollider::isEnabled() { return enabled; }
 std::string CircleCollider::getTag() { return tag; }
-sf::CircleShape CircleCollider::getDebugCircle() { return debug; }
+
+void CircleCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(debug, states);
+}
 
 std::string CircleCollider::checkCollision(CircleCollider first, CircleCollider second)
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include "Entity.h"
 #include "Vector2.h"
@@ -44,6 +45,4 @@ public:
     void shoot();
     void update(sf::Time dt);
     ast::Vector2 getVelocityVector();
-    sf::CircleShape getDebugCircle();
-    sf::Sprite getSprite();
 };

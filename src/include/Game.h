@@ -16,12 +16,10 @@ private:
 
     sf::RenderWindow window;
     sf::Texture* shipTex;
-    sf::Texture* astTex;
-    sf::Texture* blltTex;
-    sf::Texture overlay;
+    sf::Texture* overlay;
     sf::Sprite overlaySpr;
 
-    sf::Font font;
+    sf::Font* font;
     sf::Text scoreText;
     sf::Text gameOverText;
 
@@ -43,8 +41,6 @@ private:
     void updateEntities(std::vector<T>& v, sf::Time dt);
     template <typename T>
     void drawEntities(std::vector<T>& v);
-    template <typename T>
-    void drawDebugEntities(std::vector<T>& v);
     void drawLives();
     void checkDespawnedBullets();
     void draw();

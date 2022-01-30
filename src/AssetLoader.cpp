@@ -11,43 +11,47 @@ AssetLoader* AssetLoader::getInstance()
     return instance;
 }
 
+void AssetLoader::loadFont()
+{
+    if(!font.loadFromFile("fonts/ARCADECLASSIC.TTF"))
+        std::cerr << "Error loading font!" << std::endl;
+}
+
+sf::Font* AssetLoader::getFont()
+{
+    return &font;
+}
+
 void AssetLoader::loadTextures()
 {
-    if(!ShipTexture.loadFromFile("img/Ship.png"))
+    if(!shipTexture.loadFromFile("img/Ship.png"))
         std::cerr << "Loading ship texture failed!" << std::endl;
-    if(!BulletTexture.loadFromFile("img/Bullet.png"))
+    if(!bulletTexture.loadFromFile("img/Bullet.png"))
         std::cerr << "Loading bullet texture failed!" << std::endl;
-    if(!AsteroidTexture.loadFromFile("img/Asteroids.png"))
+    if(!asteroidTexture.loadFromFile("img/Asteroids.png"))
         std::cerr << "Loading asteroid texture failed!" << std::endl;
-    if(!EnemyTexture.loadFromFile("img/Enemy.png"))
+    if(!enemyTexture.loadFromFile("img/Enemy.png"))
         std::cerr << "Loading asteroid texture failed!" << std::endl;
-    ShipTexture.setRepeated(false);
-    BulletTexture.setRepeated(false);
-    AsteroidTexture.setRepeated(false);
-    EnemyTexture.setRepeated(false);
+    if(!overlayTexture.loadFromFile("img/Overlay.png"))
+        std::cerr << "Loading overlay texture failed!" << std::endl;
+    shipTexture.setRepeated(false);
+    bulletTexture.setRepeated(false);
+    asteroidTexture.setRepeated(false);
+    enemyTexture.setRepeated(false);
+    overlayTexture.setRepeated(false);
 }
 
-void AssetLoader::destroyInstance()
-{
-    delete instance;
-}
+// void AssetLoader::loadSounds()
+// {
+//     if(!shootSoundBuffer.loadFromFile("sounds/Shoot.wav"))
+//         std::cerr << "Loading the shoot sound failed!" << std::endl;
+// }
 
-sf::Texture* AssetLoader::getShipTexture()
-{
-    return &ShipTexture;
-}
+void AssetLoader::destroyInstance() { delete instance; }
 
-sf::Texture* AssetLoader::getBulletTexture()
-{
-    return &BulletTexture;
-}
-
-sf::Texture* AssetLoader::getAsteroidTexture()
-{
-    return &AsteroidTexture;
-}
-
-sf::Texture* AssetLoader::getEnemyTexture()
-{
-    return &EnemyTexture;
-}
+sf::Texture* AssetLoader::getShipTexture() { return &shipTexture; }
+sf::Texture* AssetLoader::getBulletTexture() { return &bulletTexture; }
+sf::Texture* AssetLoader::getAsteroidTexture() { return &asteroidTexture; }
+sf::Texture* AssetLoader::getEnemyTexture() { return &enemyTexture; }
+sf::Texture* AssetLoader::getOverlayTexture() { return &overlayTexture; }
+// sf::SoundBuffer* AssetLoader::getShootSoundBuffer() { return &shootSoundBuffer; }

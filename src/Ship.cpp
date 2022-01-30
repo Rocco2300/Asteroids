@@ -21,7 +21,9 @@ Ship::Ship(std::vector<Bullet>& bullets)
     accelTime = .4f;
     accel = maxVel / accelTime;
 
-    this->texture = AssetLoader::getInstance()->getShipTexture();
+    AssetLoader* assetLoader = AssetLoader::getInstance();
+    this->texture = assetLoader->getShipTexture();
+
     indexToCurrentFrame = 0;
     setSprite({(float)indexToCurrentFrame, 0.f}, {32.f, 45.f});
     setCollider(16.f, pos);
@@ -147,14 +149,4 @@ void Ship::update(sf::Time dt)
 ast::Vector2 Ship::getVelocityVector()
 {
     return vel;
-}
-
-sf::CircleShape Ship::getDebugCircle()
-{
-    return collider.getDebugCircle();
-}
-
-sf::Sprite Ship::getSprite()
-{
-    return sprite;
 }

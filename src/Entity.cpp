@@ -69,6 +69,12 @@ void Entity::move(ast::Vector2 vector)
 } 
 
 void Entity::update(sf::Time dt) { }
-sf::CircleShape Entity::getDebugCircle() { return collider.getDebugCircle(); }
-sf::Sprite Entity::getSprite() { return sprite; } 
 ast::Vector2 Entity::getPosition() { return pos; }
+
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(sprite, states);
+    #if DEBUG
+    target.draw(collider, states);
+    #endif
+}

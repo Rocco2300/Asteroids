@@ -2,8 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "CircleCollider.h"
+#include "Constants.h"
 
-class Entity
+class Entity : public sf::Drawable
 {
 protected:
     CircleCollider collider;
@@ -27,8 +28,7 @@ public:
     virtual void move(ast::Vector2 vector);
     virtual void update(sf::Time dt);
     virtual CircleCollider getCircleCollider();
-    virtual sf::CircleShape getDebugCircle();
-    virtual sf::Sprite getSprite();
     virtual ast::Vector2 getPosition();
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
