@@ -1,4 +1,5 @@
 #include "AssetLoader.h"
+#include <cassert>
 
 AssetLoader* AssetLoader::instance = nullptr;
 
@@ -9,6 +10,23 @@ AssetLoader* AssetLoader::getInstance()
         instance = new AssetLoader();
     }
     return instance;
+}
+
+void AssetLoader::loadTexture(std::string id, std::string path)
+{
+    sf::Texture texture;
+    if(!texture.loadFromFile(path))
+        std::cerr << "Error loading texture " << id << "!\n";
+    texture.setRepeated(false);
+    textures.insert(std::make_pair(id, std::move(texture)));
+}
+
+void AssetLoader::loadSoundBuffer(std::string id, std::string path)
+{
+    sf::SoundBuffer buffer;
+    if(!buffer.loadFromFile(path))
+        std::cerr << "Error loading buffer " << id << "!\n";
+    soundBuffers.insert(std::make_pair(id, std::move(buffer)));
 }
 
 void AssetLoader::loadFont()
@@ -24,34 +42,16 @@ sf::Font* AssetLoader::getFont()
 
 void AssetLoader::loadTextures()
 {
-    if(!shipTexture.loadFromFile("img/Ship.png"))
-        std::cerr << "Loading ship texture failed!" << std::endl;
-    if(!bulletTexture.loadFromFile("img/Bullet.png"))
-        std::cerr << "Loading bullet texture failed!" << std::endl;
-    if(!asteroidTexture.loadFromFile("img/Asteroids.png"))
-        std::cerr << "Loading asteroid texture failed!" << std::endl;
-    if(!enemyTexture.loadFromFile("img/Enemy.png"))
-        std::cerr << "Loading asteroid texture failed!" << std::endl;
-    if(!overlayTexture.loadFromFile("img/Overlay.png"))
-        std::cerr << "Loading overlay texture failed!" << std::endl;
-    shipTexture.setRepeated(false);
-    bulletTexture.setRepeated(false);
-    asteroidTexture.setRepeated(false);
-    enemyTexture.setRepeated(false);
-    overlayTexture.setRepeated(false);
+    loadTexture("player", "img/Ship.png");
+    loadTexture("asteroids", "img/Asteroids.png");
+    loadTexture("bullet", "img/Bullet.png");
+    loadTexture("enemy", "img/Enemy.png");
+    loadTexture("overlay", "img/Overlay.png");
 }
 
-// void AssetLoader::loadSounds()
-// {
-//     if(!shootSoundBuffer.loadFromFile("sounds/Shoot.wav"))
-//         std::cerr << "Loading the shoot sound failed!" << std::endl;
-// }
-
-void AssetLoader::destroyInstance() { delete instance; }
-
-sf::Texture* AssetLoader::getShipTexture() { return &shipTexture; }
-sf::Texture* AssetLoader::getBulletTexture() { return &bulletTexture; }
-sf::Texture* AssetLoader::getAsteroidTexture() { return &asteroidTexture; }
-sf::Texture* AssetLoader::getEnemyTexture() { return &enemyTexture; }
-sf::Texture* AssetLoader::getOverlayTexture() { return &overlayTexture; }
-// sf::SoundBuffer* AssetLoader::getShootSoundBuffer() { return &shootSoundBuffer; }
+sf::Texture* AssetLoader::getTexture(std::string id)
+{
+    auto it = textures.find(id);
+    assert(it != textures.end());
+    return &textures[id];
+}

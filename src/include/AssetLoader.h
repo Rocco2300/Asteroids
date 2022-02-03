@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <map>
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 
@@ -12,29 +14,27 @@ class AssetLoader
 {
 public:
     static AssetLoader* getInstance();
-    void destroyInstance();
+    void loadTexture(std::string id, std::string path);
+    void loadSoundBuffer(std::string id, std::string path);
     void loadFont();
     void loadTextures();
     void loadSounds();
 
     sf::Font* getFont();
-    sf::Texture* getShipTexture();
-    sf::Texture* getBulletTexture();
-    sf::Texture* getAsteroidTexture();
-    sf::Texture* getEnemyTexture();
-    sf::Texture* getOverlayTexture();
-    // sf::SoundBuffer* getShootSoundBuffer();
+    sf::Texture* getTexture(std::string id);
 private:
     AssetLoader() { }
     static AssetLoader* instance;
 
     sf::Font font;
+    std::map<std::string, sf::Texture> textures;
+    std::map<std::string, sf::SoundBuffer> soundBuffers;
+
     sf::Texture shipTexture;
     sf::Texture bulletTexture;
     sf::Texture asteroidTexture;
     sf::Texture enemyTexture;
     sf::Texture overlayTexture;
-    // sf::SoundBuffer shootSoundBuffer;
 };
 
 

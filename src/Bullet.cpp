@@ -7,7 +7,7 @@ Bullet::Bullet()
     : Entity(pos, "bullet")
 { 
     despawned = true;
-    this->texture = AssetLoader::getInstance()->getBulletTexture();
+    this->texture = AssetLoader::getInstance()->getTexture("bullet");
     setSprite();
     setCollider(4.f, pos);
 }
@@ -21,7 +21,7 @@ Bullet::Bullet(ast::Vector2 pos, ast::Vector2 dir, float speed, std::string tag)
     this->speed = speed;
     despawned = false;
     
-    this->texture = AssetLoader::getInstance()->getBulletTexture();
+    this->texture = AssetLoader::getInstance()->getTexture("bullet");
     setSprite();
     setCollider(4.f, pos);
 }

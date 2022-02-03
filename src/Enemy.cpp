@@ -21,7 +21,7 @@ Enemy::Enemy(ast::Vector2 pos, ast::Vector2 dir, float speed,
     this->predict = false;
     this->shootCount = 2;
 
-    this->texture = AssetLoader::getInstance()->getEnemyTexture();
+    this->texture = AssetLoader::getInstance()->getTexture("enemy");
     setSprite();
     setCollider(18.f, pos);
 }

@@ -16,13 +16,13 @@ Game::Game()
     assetLoader->loadTextures();
     // assetLoader->loadSounds();
     
-    shipHpTexture = assetLoader->getShipTexture();
+    shipHpTexture = assetLoader->getTexture("player");
     shipHpSprite.setTexture(*shipHpTexture);
     shipHpSprite.setTextureRect({0, 0, 32, 32});
     shipHpSprite.setOrigin({16.f, 16.f});
     shipHpSprite.setScale({.75f, .75f});
 
-    overlay = assetLoader->getOverlayTexture();
+    overlay = assetLoader->getTexture("overlay");
     overlaySpr.setTexture(*overlay);
     overlaySpr.setPosition({0.f, 0.f});
 
@@ -68,13 +68,11 @@ void Game::update()
         {
             if (event.type == sf::Event::Closed)
             {
-                AssetLoader::getInstance()->destroyInstance();
                 window.close();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::R)
             {
                 reset();
-                // enemy = Enemy();
                 manager.reset();
                 state = GameState::Running;
             }

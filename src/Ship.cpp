@@ -23,14 +23,7 @@ Ship::Ship(std::vector<Bullet>& bullets)
     accel = maxVel / accelTime;
 
     AssetLoader* assetLoader = AssetLoader::getInstance();
-    this->texture = assetLoader->getShipTexture();
-
-    // if(!soundBuffer.loadFromFile("sounds/Laser_Shoot2.wav"))
-    //     std::cerr << "sdfsdgfsd" << std::endl;
-    // shootSound.setBuffer(soundBuffer);
-    // shootSound.setVolume(100);
-    // shootSound.setLoop(false);
-
+    this->texture = assetLoader->getTexture("player");
     indexToCurrentFrame = 0;
     setSprite({(float)indexToCurrentFrame, 0.f}, {32.f, 45.f});
     setCollider(16.f, pos);

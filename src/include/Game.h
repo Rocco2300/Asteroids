@@ -23,6 +23,9 @@ private:
     sf::Text scoreText;
     sf::Text gameOverText;
 
+    sf::SoundBuffer buf;
+    sf::Sound sound;
+
     Ship ship;
     Enemy enemy;
     sf::Texture* shipHpTexture;
