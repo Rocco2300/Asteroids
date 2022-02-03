@@ -22,6 +22,7 @@ public:
 
     sf::Font* getFont();
     sf::Texture* getTexture(std::string id);
+    sf::SoundBuffer* getSoundBuffer(std::string id);
 private:
     AssetLoader() { }
     static AssetLoader* instance;

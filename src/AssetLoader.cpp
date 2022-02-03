@@ -35,11 +35,6 @@ void AssetLoader::loadFont()
         std::cerr << "Error loading font!" << std::endl;
 }
 
-sf::Font* AssetLoader::getFont()
-{
-    return &font;
-}
-
 void AssetLoader::loadTextures()
 {
     loadTexture("player", "img/Ship.png");
@@ -49,9 +44,27 @@ void AssetLoader::loadTextures()
     loadTexture("overlay", "img/Overlay.png");
 }
 
+void AssetLoader::loadSounds()
+{
+    loadSoundBuffer("shoot", "sounds/Shoot.wav");
+    loadSoundBuffer("ship_explosion", "sounds/Ship_Explosion.wav");
+}
+
 sf::Texture* AssetLoader::getTexture(std::string id)
 {
     auto it = textures.find(id);
     assert(it != textures.end());
     return &textures[id];
+}
+
+sf::SoundBuffer* AssetLoader::getSoundBuffer(std::string id)
+{
+    auto it = soundBuffers.find(id);
+    assert(it != soundBuffers.end());
+    return &soundBuffers[id];
+}
+
+sf::Font* AssetLoader::getFont()
+{
+    return &font;
 }
