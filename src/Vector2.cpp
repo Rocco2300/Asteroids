@@ -20,7 +20,6 @@ namespace ast
     }
     sf::Vector2f Vector2::toSfVector2f() { return sf::Vector2f(this->x, this->y); }
 
-    #pragma region Operator Overloads
     Vector2 Vector2::operator+(const Vector2& vector) const
     {
         ast::Vector2 temp = ast::Vector2(this->x + vector.x, this->y + vector.y);
@@ -78,7 +77,6 @@ namespace ast
         this->y /= scalar;
         return *this;
     }
-    #pragma endregion Operator Overloads
 
     Vector2 Vector2::zero()
     {

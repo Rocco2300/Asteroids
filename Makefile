@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g -O2 -std=c++17
+CXXFLAGS = -g -O2 -Wall -std=c++17
 TARGET = a
 
 SRC = src/

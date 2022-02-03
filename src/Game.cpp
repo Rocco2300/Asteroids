@@ -156,7 +156,7 @@ void Game::drawLives()
 
 void Game::checkDespawnedBullets()
 {
-    for(int i = 0; i < bullets.size(); i++)
+    for(size_t i = 0; i < bullets.size(); i++)
     {
         if(bullets[i].isDespawned())
         {

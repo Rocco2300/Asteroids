@@ -29,6 +29,8 @@ float Spawner::randomizeSpeed(AsteroidSize size)
         break;
     case Small:
         speed = (rand() % 150 + 150) / 100.f;
+    default:
+        speed = 1.f;
     }
     return speed;
 }
@@ -66,7 +68,7 @@ bool Spawner::isInPlayerBounds(ast::Vector2 p)
 
 bool Spawner::isNearAnotherAsteroid(ast::Vector2 p)
 {
-    for(int i = 0; i < asteroids->size(); i++)
+    for(size_t i = 0; i < asteroids->size(); i++)
     {
         if(ast::Vector2::distance(p, asteroids->at(i).getPosition()) <= 200.f)
             return true;
@@ -77,7 +79,7 @@ bool Spawner::isNearAnotherAsteroid(ast::Vector2 p)
 void Spawner::spawnAsteroids(const std::vector<AsteroidSize>& toSpawn)
 {
     int cnt = 0;
-    for(int i = 0; i < toSpawn.size(); i++)
+    for(size_t i = 0; i < toSpawn.size(); i++)
     {
         ast::Vector2 randPos, randDir;
         // Do not spawn asteroids near player
