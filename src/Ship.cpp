@@ -29,6 +29,10 @@ Ship::Ship(std::vector<Bullet>& bullets)
     setCollider(16.f, pos);
     setOrigin({16.f, 16.f});
 
+    soundManager.loadSound("shoot");
+    soundManager.loadSound("ship_explosion");
+    soundManager.setBuffers();
+
     this->bullets = &bullets;
 
     // Starting the clock for the shooting firerate
@@ -45,6 +49,7 @@ void Ship::takeDamage() { hp--; }
 
 void Ship::reset()
 {
+    soundManager.playSound("ship_explosion");
     // Init values for input
     rotateInput = 0;
     accelInput = 0;
@@ -130,6 +135,7 @@ void Ship::shoot()
             bullet = Bullet(gunPos, gunDir, 10.f, "bullet");
             bullets->push_back(bullet);
             shootCooldown = clock.restart();
+            soundManager.playSound("shoot");
         }
     }
 }

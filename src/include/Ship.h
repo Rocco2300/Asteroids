@@ -7,10 +7,12 @@
 #include "CircleCollider.h"
 #include "Asteroid.h"
 #include "Bullet.h"
+#include "SoundManager.h"
 
 class Ship : public Entity
 {
 private:
+    SoundManager soundManager;
     int rotateInput;
     int accelInput;
     int shootInput;

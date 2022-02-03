@@ -33,3 +33,6 @@
 
 # Asset files
 *.bfxrsound
+ 
+# Directories
+.vscode/*

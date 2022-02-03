@@ -14,7 +14,7 @@ Game::Game()
     AssetLoader* assetLoader = AssetLoader::getInstance();
     assetLoader->loadFont();
     assetLoader->loadTextures();
-    // assetLoader->loadSounds();
+    assetLoader->loadSounds();
     
     shipHpTexture = assetLoader->getTexture("player");
     shipHpSprite.setTexture(*shipHpTexture);
