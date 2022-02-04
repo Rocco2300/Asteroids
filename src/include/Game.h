@@ -7,7 +7,7 @@
 #include "Constants.h"
 #include "Ship.h"
 #include "Enemy.h"
-#include "Particle.h"
+#include "ParticleSystem.h"
 
 class Game
 {
@@ -24,8 +24,7 @@ private:
     sf::Text scoreText;
     sf::Text gameOverText;
 
-    std::vector<Particle> particles;
-    Particle particle;
+    ParticleSystem particles;
 
     Ship ship;
     Enemy enemy;

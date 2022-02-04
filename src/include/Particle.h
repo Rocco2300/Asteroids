@@ -18,6 +18,7 @@ private:
 public:
     Particle();
     Particle(ast::Vector2 pos, ast::Vector2 dir, float speed, float lifetime);
+    bool isAlive();
     void update(sf::Time dt);
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

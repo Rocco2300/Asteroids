@@ -26,16 +26,8 @@ Game::Game()
     overlaySpr.setTexture(*overlay);
     overlaySpr.setPosition({0.f, 0.f});
 
-    for(int i = 0; i < 20; i++)
-    {
-        ast::Vector2 randDir;
-        float randAng = rand() % 360;
-        randDir.x = std::cos(randAng * PI/180);
-        randDir.y = std::sin(randAng * PI/180);
-        float randSpeed = (rand() % 50 + 50) / 10.f;
-        particle = Particle({WINDOW_WIDTH/2 + 100.f, WINDOW_HEIGHT/2}, randDir, randSpeed, .25f);
-        particles.push_back(particle);
-    }
+    particles = ParticleSystem({WINDOW_WIDTH / 2 + 100.f, WINDOW_HEIGHT / 2}, 20, 0.5f);
+    particles.spawn();
     
     font = assetLoader->getFont();
     scoreText.setFont(*font);
@@ -94,16 +86,7 @@ void Game::update()
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::P)
             {
                 particles.clear();
-                for(int i = 0; i < 20; i++)
-                {
-                    ast::Vector2 randDir;
-                    float randAng = rand() % 360;
-                    randDir.x = std::cos(randAng * PI/180);
-                    randDir.y = std::sin(randAng * PI/180);
-                    float randSpeed = (rand() % 50 + 50) / 10.f;
-                    particle = Particle({WINDOW_WIDTH/2 + 100.f, WINDOW_HEIGHT/2}, randDir, randSpeed, .3f);
-                    particles.push_back(particle);
-                }
+                particles.spawn();
             }
         }
 
@@ -119,10 +102,7 @@ void Game::update()
             ship.update(dt);
             if(enemy.isAlive())
                 enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
-            for(int i = 0; i < 20; i++)
-            {
-                particles[i].update(dt);
-            }
+            particles.update(dt);
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
@@ -199,10 +179,7 @@ void Game::draw()
     window.clear();
     window.draw(ship);
     window.draw(enemy);
-    for(int i = 0; i < 20; i++)
-    {
-        window.draw(particles[i]);
-    }
+    window.draw(particles);
     drawEntities(asteroids);
     drawEntities(bullets);
     if(!gameOver)

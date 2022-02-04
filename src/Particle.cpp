@@ -21,6 +21,8 @@ Particle::Particle(ast::Vector2 pos, ast::Vector2 dir, float speed, float lifeti
     sprite.setPosition(pos.toSfVector2f());
 }
 
+bool Particle::isAlive() { return alive; }
+
 /*
 f : [0, 2] -> [0, 1]
 f(x) = {
@@ -69,7 +71,7 @@ void Particle::update(sf::Time dt)
     ast::Vector2 vel = dir * frameSpeed * dt.asSeconds();
     // We clamp the values between 0.f and 2.f
     pos += vel * speedFalloff(lifetime / stLifetime * 2.f);
-    int alpha = alphaFalloff(lifetime / stLifetime * 2.f) * 255;
+    sf::Uint8 alpha = alphaFalloff(lifetime / stLifetime * 2.f) * 255;
 
     sprite.setPosition(pos.toSfVector2f());
     sprite.setColor({255, 255, 255, alpha});
