@@ -256,10 +256,10 @@ GameState GameManager::checkPlayerCollisions()
     return state;
 }
 
-// 3 ^ (x - 1) + 3;
-int f(int x)
+// 3 ^ (wave - 1) + 3;
+int waveScore(int wave)
 {
-    return std::pow(3, x - 1) + 3;
+    return std::pow(3, wave - 1) + 3;
 }
 
 GameState GameManager::update()
@@ -278,7 +278,7 @@ GameState GameManager::update()
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
         {
             // Cap the exponential growth at wave 5
-            score += f((wave <= 5) ? wave : 5) * 100;
+            score += waveScore((wave <= 5) ? wave : 5) * 100;
             wave++;
             enemySpawnCheck = clock.getElapsedTime();
             spawnAsteroids();

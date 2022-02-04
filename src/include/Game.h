@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include "Ship.h"
 #include "Enemy.h"
+#include "Particle.h"
 
 class Game
 {
@@ -23,8 +24,8 @@ private:
     sf::Text scoreText;
     sf::Text gameOverText;
 
-    sf::SoundBuffer buf;
-    sf::Sound sound;
+    std::vector<Particle> particles;
+    Particle particle;
 
     Ship ship;
     Enemy enemy;

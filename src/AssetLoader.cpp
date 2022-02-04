@@ -42,12 +42,13 @@ void AssetLoader::loadTextures()
     loadTexture("bullet", "img/Bullet.png");
     loadTexture("enemy", "img/Enemy.png");
     loadTexture("overlay", "img/Overlay.png");
+    loadTexture("particle", "img/Particle.png");
 }
 
 void AssetLoader::loadSounds()
 {
-    loadSoundBuffer("shoot", "sounds/Shoot.wav");
-    loadSoundBuffer("ship_explosion", "sounds/Ship_Explosion.wav");
+    loadSoundBuffer("shoot", "sound/Shoot.wav");
+    loadSoundBuffer("ship_explosion", "sound/Ship_Explosion.wav");
 }
 
 sf::Texture* AssetLoader::getTexture(std::string id)
