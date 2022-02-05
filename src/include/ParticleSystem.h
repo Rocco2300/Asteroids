@@ -7,15 +7,12 @@
 class ParticleSystem : public sf::Drawable
 {
 private:
-    ast::Vector2 pos;
     std::vector<Particle> particles;
-    float lifetime;
-    int particleNo;
     bool empty;
 public:
     ParticleSystem();
-    ParticleSystem(ast::Vector2 pos, int particleNo, float lifetime);
-    void spawn();
+    // ParticleSystem(ast::Vector2 pos, int particleNo, float lifetime);
+    void spawn(ast::Vector2 pos, int particleNo, float lifetime);
     void update(sf::Time dt);
     void clear();
     bool isEmpty();

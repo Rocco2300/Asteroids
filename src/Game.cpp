@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "AssetLoader.h"
 
-#define FRAMECOUNTER true
+#define FRAMECOUNTER false
 
 Game::Game()
 { 
@@ -26,9 +26,6 @@ Game::Game()
     overlaySpr.setTexture(*overlay);
     overlaySpr.setPosition({0.f, 0.f});
 
-    particles = ParticleSystem({WINDOW_WIDTH / 2 + 100.f, WINDOW_HEIGHT / 2}, 20, 0.5f);
-    particles.spawn();
-    
     font = assetLoader->getFont();
     scoreText.setFont(*font);
     scoreText.setCharacterSize(36);
@@ -83,11 +80,6 @@ void Game::update()
             {
                 asteroids.clear();
             }
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::P)
-            {
-                particles.clear();
-                particles.spawn();
-            }
         }
 
         if(!gameOver)
@@ -102,7 +94,6 @@ void Game::update()
             ship.update(dt);
             if(enemy.isAlive())
                 enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
-            particles.update(dt);
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
@@ -179,7 +170,6 @@ void Game::draw()
     window.clear();
     window.draw(ship);
     window.draw(enemy);
-    window.draw(particles);
     drawEntities(asteroids);
     drawEntities(bullets);
     if(!gameOver)

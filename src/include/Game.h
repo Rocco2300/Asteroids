@@ -24,8 +24,6 @@ private:
     sf::Text scoreText;
     sf::Text gameOverText;
 
-    ParticleSystem particles;
-
     Ship ship;
     Enemy enemy;
     sf::Texture* shipHpTexture;

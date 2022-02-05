@@ -2,19 +2,12 @@
 
 #include <cmath>
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem() 
 {
+    particles.reserve(20);
 }
 
-ParticleSystem::ParticleSystem(ast::Vector2 pos, int particleNo, float lifetime)
-{
-    this->pos = pos;
-    this->particleNo = particleNo;
-    this->lifetime = lifetime;
-    this->empty = true;
-}
-
-void ParticleSystem::spawn()
+void ParticleSystem::spawn(ast::Vector2 pos, int particleNo, float lifetime)
 {
     Particle particle;
     for(int i = 0; i < particleNo; i++)
@@ -24,7 +17,7 @@ void ParticleSystem::spawn()
         randDir.x = std::cos(randAng * PI/180);
         randDir.y = std::sin(randAng * PI/180);
         float randSpeed = (rand() % 50 + 50) / 10.f;
-        particle = Particle({pos.x, pos.y}, randDir, randSpeed, .25f);
+        particle = Particle({pos.x, pos.y}, randDir, randSpeed, lifetime);
         particles.push_back(particle);
     }
     empty = false;
@@ -32,11 +25,11 @@ void ParticleSystem::spawn()
 
 void ParticleSystem::update(sf::Time dt)
 {
-    for(int i = particleNo - 1; i >= 0; i--)
+    for(auto it = particles.rbegin(); it != particles.rend(); it++)
     {
-        particles[i].update(dt);
-        if(!particles[i].isAlive())
-            particles.erase(particles.begin() + i);
+        if(!it->isAlive())
+            particles.erase(--(it.base()));
+        it->update(dt);
     }
 
     if(particles.empty())
@@ -52,7 +45,7 @@ bool ParticleSystem::isEmpty() { return empty; }
 
 void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for(int i = 0; i < particleNo; i++)
+    for(size_t i = 0; i < particles.size(); i++)
     {
         target.draw(particles[i], states);
     }
