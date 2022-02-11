@@ -8,7 +8,7 @@ GameManager::GameManager()
 }
 
 GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids, 
-    std::vector<Bullet>& bullets, Enemy& enemy)
+    std::vector<Bullet>& bullets, Enemy& enemy, ParticleSystem& particles, SoundManager& soundManager)
 {
     srand(time(NULL));
     this->state = GameState::Running;
@@ -22,6 +22,7 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
     this->asteroids = &asteroids;
     this->bullets = &bullets;
     this->enemy = &enemy;
+    this->particles = &particles;
 
     spawnAsteroids();
 }
@@ -116,6 +117,61 @@ void randomizeDirection(ast::Vector2 dir, ast::Vector2 offset1, ast::Vector2& ne
     }
 }
 
+void GameManager::destroyAsteroid(int index)
+{
+    AsteroidSize size = asteroids->at(index).getSize();
+    ast::Vector2 pos = asteroids->at(index).getPosition();
+    ast::Vector2 dir = asteroids->at(index).getDirection();
+
+    switch(size)
+    {
+    case Small:
+        particles->spawn(pos, 30, .15f);
+        break;
+    case Medium:
+        particles->spawn(pos, 50, .2f);
+        break;
+    case Large:
+        particles->spawn(pos, 100, .25f);
+    }
+
+    if(size != Small)
+    {
+        ast::Vector2 offset1, offset2;
+        calculateOffsetVectors(dir, offset1, offset2);
+        ast::Vector2 newDir1, newDir2;
+        randomizeDirection(dir, offset1, newDir1, newDir2);
+
+        Asteroid ast;
+        AsteroidSize newSize = (size == Large) ? Medium : Small;
+        float speed1 = spawner.randomizeSpeed(newSize);
+        float speed2 = spawner.randomizeSpeed(newSize);
+        spawner.spawnAsteroid(pos + offset1, newDir1, speed1, newSize);
+        spawner.spawnAsteroid(pos + offset2, newDir2, speed2, newSize);
+    }
+
+    asteroids->erase(asteroids->begin() + index);
+}
+
+void GameManager::destroyBullet(int index)
+{
+    particles->spawn(bullets->at(index).getPosition(), 10, .05f);
+    bullets->erase(bullets->begin() + index);
+}
+
+void GameManager::destroyEnemy()
+{
+    particles->spawn(enemy->getPosition(), 30, .15f);
+    *enemy = Enemy();
+}
+
+void GameManager::destroyPlayer()
+{
+    particles->spawn(player->getPosition(), 30, .15f);
+    player->takeDamage();
+    player->reset();
+}
+
 void GameManager::checkBulletCollisions()
 {
     // Check the asteroid - bullet collisions
@@ -130,32 +186,13 @@ void GameManager::checkBulletCollisions()
                     );
             if(tag == "asteroid")
             {
-                bullets->erase(bullets->begin() + i); 
+                // bullets->erase(bullets->begin() + i); 
+                destroyBullet(i);
                 AsteroidSize size = asteroids->at(j).getSize();
-                if(size != AsteroidSize::Small)
-                {
-                    ast::Vector2 pos = asteroids->at(j).getPosition();
-                    ast::Vector2 dir = asteroids->at(j).getDirection();
-                    asteroids->erase(asteroids->begin() + j);
-
-                    ast::Vector2 offset1, offset2;
-                    calculateOffsetVectors(dir, offset1, offset2);
-                    ast::Vector2 newDir1, newDir2;
-                    randomizeDirection(dir, offset1, newDir1, newDir2);
-
-                    Asteroid ast;
-                    AsteroidSize newSize = (size == Large) ? Medium : Small;
-                    float speed1 = spawner.randomizeSpeed(newSize);
-                    float speed2 = spawner.randomizeSpeed(newSize);
-                    spawner.spawnAsteroid(pos + offset1, newDir1, speed1, newSize);
-                    spawner.spawnAsteroid(pos + offset2, newDir2, speed2, newSize);
-                    score += (size == AsteroidSize::Large) ? 50 : 100;
-                }
-                else
-                {
-                    asteroids->erase(asteroids->begin() + j);
-                    score += 300;
-                }
+                destroyAsteroid(j);
+                score += (size == Large) ? 50 :
+                         (size == Medium) ? 100 :
+                         300;
                 break;
             }
         }
@@ -174,8 +211,8 @@ void GameManager::checkBulletCollisions()
 
             if(tag == "bullet")
             {
-                bullets->erase(bullets->begin() + i);
-                *enemy = Enemy();
+                destroyBullet(i);
+                destroyEnemy();
                 score += 500;
                 enemySpawnCheck = clock.getElapsedTime();
                 break;
@@ -196,14 +233,13 @@ GameState GameManager::checkPlayerCollisions()
                             );
         if(tag == "asteroid")
         {
-            player->takeDamage();
-            player->reset();
+            destroyPlayer();
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
             else
-                asteroids->erase(asteroids->begin() + i);
+                destroyAsteroid(i);
             return state;
         }
     }
@@ -218,14 +254,13 @@ GameState GameManager::checkPlayerCollisions()
                             );       
         if(tag == "enemyBullet")
         {
-            player->takeDamage();
-            player->reset();
+            destroyPlayer();
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
             else
-                bullets->erase(bullets->begin() + i);
+                destroyBullet(i);
             return state;
         }
     }
@@ -241,14 +276,13 @@ GameState GameManager::checkPlayerCollisions()
 
         if(t == "enemy")
         {
-            player->takeDamage();
-            player->reset();
+            destroyPlayer();
             if(player->getLives() == 0)
             {
                 state = GameOver;
             }
             else    
-                *enemy = Enemy();
+                destroyEnemy();
             enemySpawnCheck = clock.getElapsedTime();
             return state;
         }

@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Spawner.h"
 #include "Enemy.h"
+#include "ParticleSystem.h"
 #include <vector>
 
 enum GameState
@@ -17,6 +18,7 @@ class GameManager
 private:
     GameState state;
     Spawner spawner;
+    ParticleSystem* particles;
 
     int wave;
     int score;
@@ -36,10 +38,15 @@ private:
 public:
     GameManager();
     GameManager(Ship& player, std::vector<Asteroid>& asteroids,
-        std::vector<Bullet>& bullets, Enemy& enemy);
+        std::vector<Bullet>& bullets, Enemy& enemy, ParticleSystem& particles, 
+        SoundManager& soundManager);
     void reset();
     int getScore();
     void spawnAsteroids();
+    void destroyAsteroid(int index);
+    void destroyBullet(int index);
+    void destroyEnemy();
+    void destroyPlayer();
     void checkBulletCollisions();
     GameState checkPlayerCollisions();
     GameState update();

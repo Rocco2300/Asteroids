@@ -7,11 +7,12 @@
 #include "Constants.h"
 #include "Ship.h"
 #include "Enemy.h"
-#include "ParticleSystem.h"
 
 class Game
 {
 private:
+    ParticleSystem particles;
+    SoundManager soundManager;
     GameManager manager;
     bool gameOver;
 

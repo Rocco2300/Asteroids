@@ -25,11 +25,11 @@ void ParticleSystem::spawn(ast::Vector2 pos, int particleNo, float lifetime)
 
 void ParticleSystem::update(sf::Time dt)
 {
-    for(auto it = particles.rbegin(); it != particles.rend(); it++)
+    for(int i = particles.size()-1; i >= 0; i--)
     {
-        if(!it->isAlive())
-            particles.erase(--(it.base()));
-        it->update(dt);
+        if(!particles[i].isAlive())
+            particles.erase(particles.begin() + i);
+        particles[i].update(dt);
     }
 
     if(particles.empty())

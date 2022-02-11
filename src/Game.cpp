@@ -43,7 +43,7 @@ Game::Game()
     ship = Ship(bullets);
 
     gameOver = false;
-    manager = GameManager(ship, asteroids, bullets, enemy);
+    manager = GameManager(ship, asteroids, bullets, enemy, particles, soundManager);
     scoreText.setString(std::to_string(manager.getScore()));
 }
 
@@ -94,6 +94,7 @@ void Game::update()
             ship.update(dt);
             if(enemy.isAlive())
                 enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
+            particles.update(dt);
             updateEntities(asteroids, dt);
             updateEntities(bullets, dt);
             checkDespawnedBullets();
@@ -170,6 +171,7 @@ void Game::draw()
     window.clear();
     window.draw(ship);
     window.draw(enemy);
+    window.draw(particles);
     drawEntities(asteroids);
     drawEntities(bullets);
     if(!gameOver)
