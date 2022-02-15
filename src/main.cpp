@@ -1,9 +1,8 @@
-#include "Game.h"
 #include "Asteroids.h"
 
 int main()
 {
-    Game game;
-    game.update();
+    Asteroids asteroids(new Game(asteroids));
+    asteroids.update();
     return 0;
 }

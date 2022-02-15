@@ -4,6 +4,8 @@ Asteroids::Asteroids() : state{nullptr} { }
 
 Asteroids::Asteroids(MenuState* state) : state{nullptr}
 {
+    createWindow("Asteroids", 60);
+    setState(state);
 }
 
 Asteroids::~Asteroids()
@@ -11,16 +13,24 @@ Asteroids::~Asteroids()
     delete state;
 }
 
+void Asteroids::createWindow(std::string name, int frameLimit)
+{
+    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), name);
+    window.setFramerateLimit(frameLimit);
+    window.setVerticalSyncEnabled(false);
+}
+
 void Asteroids::update()
 {
-    // GameState state;
-    // sf::Clock clk;
-    // sf::Clock clock;
+    sf::Clock clock;
 
-    // while (window.isOpen())
-    // {
-        
-    // }
+    while (window.isOpen())
+    {
+        sf::Time dt = clock.restart();
+        state->pollEvents();
+        state->update(dt);
+        state->draw(); 
+    }
 }
 
 void Asteroids::setState(MenuState* state)
@@ -29,4 +39,9 @@ void Asteroids::setState(MenuState* state)
         delete state;
     this->state = state;
     this->state->setContext(this);
+}
+
+sf::RenderWindow* Asteroids::getWindow()
+{
+    return &window;
 }

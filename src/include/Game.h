@@ -19,7 +19,7 @@ private:
     GameState state;
     bool gameOver;
 
-    sf::RenderWindow window;
+    sf::RenderWindow* window;
     sf::Texture* shipTex;
     sf::Texture* overlay;
     sf::Sprite overlaySpr;
@@ -36,7 +36,7 @@ private:
     std::vector<Bullet> bullets;
     ast::Vector2 v;
 public:
-    Game();
+    Game(Asteroids& context);
     void pollEvents();
     void update(sf::Time dt);
     void draw(sf::RenderTarget& target, sf::RenderStates states);

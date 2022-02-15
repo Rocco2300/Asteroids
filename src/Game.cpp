@@ -7,10 +7,11 @@
 
 #define FRAMECOUNTER false
 
-Game::Game()
+Game::Game(Asteroids& context)
 { 
     srand(time(NULL));
-    createWindow("Asteroids", 60);
+    // createWindow("Asteroids", 60);
+    window = context.getWindow();
     AssetLoader* assetLoader = AssetLoader::getInstance();
     assetLoader->loadFont();
     assetLoader->loadTextures();
@@ -47,21 +48,21 @@ Game::Game()
     scoreText.setString(std::to_string(manager.getScore()));
 }
 
-void Game::createWindow(std::string name, int frameLimit)
-{
-    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), name);
-    window.setFramerateLimit(frameLimit);
-    window.setVerticalSyncEnabled(false);
-}
+// void Game::createWindow(std::string name, int frameLimit)
+// {
+//     window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), name);
+//     window.setFramerateLimit(frameLimit);
+//     window.setVerticalSyncEnabled(false);
+// }
 
 void Game::pollEvents()
 {
     sf::Event event;
-    while (window.pollEvent(event))
+    while (window->pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
-            window.close();
+            window->close();
         }
         if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::R)
         {
@@ -103,11 +104,9 @@ void Game::update(sf::Time dt)
 
 void Game::update()
 {
-    GameState state;
-    sf::Clock clk;
     sf::Clock clock;
 
-    while (window.isOpen())
+    while (window->isOpen())
     {
         sf::Time dt = clock.restart();
         pollEvents();
@@ -137,7 +136,7 @@ void Game::drawEntities(std::vector<T>& v)
 {
     for(size_t i = 0; i < v.size(); i++)
     {
-        window.draw(v[i]);
+        window->draw(v[i]);
     }
 }
 
@@ -147,7 +146,7 @@ void Game::drawLives()
     for(int i = 0; i < ship.getLives(); i++)
     {
         shipHpSprite.setPosition({16.f + 32.f * i, 28.f});
-        window.draw(shipHpSprite);
+        window->draw(shipHpSprite);
     }
 }
 
@@ -164,15 +163,15 @@ void Game::checkDespawnedBullets()
 
 void Game::draw()
 {
-    window.clear();
-    window.draw(ship);
-    window.draw(enemy);
-    window.draw(particles);
+    window->clear();
+    window->draw(ship);
+    window->draw(enemy);
+    window->draw(particles);
     drawEntities(asteroids);
     drawEntities(bullets);
     if(!gameOver)
     {
-        window.draw(scoreText);
+        window->draw(scoreText);
         drawLives();
     }
     else
@@ -181,16 +180,16 @@ void Game::draw()
         finalScoreText.setFont(*font);
         finalScoreText.setCharacterSize(36);
         finalScoreText.setFillColor(sf::Color::White);
-        window.draw(overlaySpr);
-        window.draw(gameOverText);
+        window->draw(overlaySpr);
+        window->draw(gameOverText);
         finalScoreText.setString("Score");
         finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
         finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
-        window.draw(finalScoreText);
+        window->draw(finalScoreText);
         finalScoreText.setString(std::to_string(manager.getScore()));
         finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
         finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 75.f});
-        window.draw(finalScoreText);
+        window->draw(finalScoreText);
     }
-    window.display();
+    window->display();
 }

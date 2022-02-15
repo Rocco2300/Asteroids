@@ -12,7 +12,9 @@ public:
     Asteroids();
     Asteroids(MenuState* state);
     ~Asteroids();
+    void createWindow(std::string name, int frameLimit);
     void setState(MenuState* state);
     void update();
+    sf::RenderWindow* getWindow();
 };
 
