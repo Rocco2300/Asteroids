@@ -2,18 +2,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Asteroids.h"
+#include "MenuState.h"
 #include "GameManager.h"
 #include "Bullet.h"
 #include "Constants.h"
 #include "Ship.h"
 #include "Enemy.h"
 
-class Game
+class Game : public MenuState
 {
 private:
     ParticleSystem particles;
     SoundManager soundManager;
     GameManager manager;
+    GameState state;
     bool gameOver;
 
     sf::RenderWindow window;
@@ -34,6 +37,9 @@ private:
     ast::Vector2 v;
 public:
     Game();
+    void pollEvents();
+    void update(sf::Time dt);
+    void draw(sf::RenderTarget& target, sf::RenderStates states);
     void update();
 private:
     void reset();

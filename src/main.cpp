@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Asteroids.h"
 
 int main()
 {
