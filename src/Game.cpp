@@ -4,7 +4,7 @@
 #include <ctime>
 #include "Game.h"
 #include "AssetLoader.h"
-// #include "MainMenu.h"
+#include "MainMenu.h"
 
 #define FRAMECOUNTER false
 
@@ -68,11 +68,12 @@ bool Game::pollEvents()
         {
             asteroids.clear();
         }
-        // if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-        // {
-        //     context->setState(new MainMenu(context));
-        //     break;
-        // }
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameOver)
+        {
+            std::unique_ptr<MenuState> newState(new MainMenu(context));
+            context->setState(newState);
+            return true;
+        }
     }
     return false;
 }
