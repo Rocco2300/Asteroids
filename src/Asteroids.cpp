@@ -1,16 +1,14 @@
 #include "Asteroids.h"
 
-Asteroids::Asteroids() : state{nullptr} { }
+Asteroids::Asteroids() : state{nullptr} 
+{
+    createWindow("Asteroids", 60);
+}
 
-Asteroids::Asteroids(MenuState* state) : state{nullptr}
+Asteroids::Asteroids(std::unique_ptr<MenuState>& state) : state{nullptr}
 {
     createWindow("Asteroids", 60);
     setState(state);
-}
-
-Asteroids::~Asteroids()
-{
-    delete state;
 }
 
 void Asteroids::createWindow(std::string name, int frameLimit)
@@ -26,19 +24,20 @@ void Asteroids::update()
 
     while (window.isOpen())
     {
-        sf::Time dt = clock.restart();
-        state->pollEvents();
-        state->update(dt);
-        state->draw(); 
+        sf::Time dt = clock.restart(); 
+        bool changedState = state->pollEvents();
+        
+        if(!changedState)
+        {    
+            state->update(dt);
+            state->draw(); 
+        }
     }
 }
 
-void Asteroids::setState(MenuState* state)
+void Asteroids::setState(std::unique_ptr<MenuState>& state)
 {
-    if(this->state != nullptr)
-        delete state;
-    this->state = state;
-    this->state->setContext(this);
+    this->state = std::move(state);
 }
 
 sf::RenderWindow* Asteroids::getWindow()

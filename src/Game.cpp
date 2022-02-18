@@ -4,14 +4,16 @@
 #include <ctime>
 #include "Game.h"
 #include "AssetLoader.h"
+// #include "MainMenu.h"
 
 #define FRAMECOUNTER false
 
-Game::Game(Asteroids& context)
+Game::Game(Asteroids* context)
 { 
     srand(time(NULL));
     // createWindow("Asteroids", 60);
-    window = context.getWindow();
+    window = context->getWindow();
+    setContext(context);
     AssetLoader* assetLoader = AssetLoader::getInstance();
     assetLoader->loadFont();
     assetLoader->loadTextures();
@@ -48,14 +50,7 @@ Game::Game(Asteroids& context)
     scoreText.setString(std::to_string(manager.getScore()));
 }
 
-// void Game::createWindow(std::string name, int frameLimit)
-// {
-//     window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), name);
-//     window.setFramerateLimit(frameLimit);
-//     window.setVerticalSyncEnabled(false);
-// }
-
-void Game::pollEvents()
+bool Game::pollEvents()
 {
     sf::Event event;
     while (window->pollEvent(event))
@@ -73,7 +68,13 @@ void Game::pollEvents()
         {
             asteroids.clear();
         }
+        // if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+        // {
+        //     context->setState(new MainMenu(context));
+        //     break;
+        // }
     }
+    return false;
 }
 
 void Game::update(sf::Time dt)
@@ -99,19 +100,6 @@ void Game::update(sf::Time dt)
         float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
         scoreText.setOrigin({offset, 0.f});
         scoreText.setString(std::to_string(manager.getScore()));
-    }
-}
-
-void Game::update()
-{
-    sf::Clock clock;
-
-    while (window->isOpen())
-    {
-        sf::Time dt = clock.restart();
-        pollEvents();
-        update(dt);
-        draw(); 
     }
 }
 

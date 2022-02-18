@@ -19,7 +19,6 @@ private:
     GameState state;
     bool gameOver;
 
-    sf::RenderWindow* window;
     sf::Texture* shipTex;
     sf::Texture* overlay;
     sf::Sprite overlaySpr;
@@ -34,22 +33,18 @@ private:
     sf::Sprite shipHpSprite;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
-    ast::Vector2 v;
 public:
-    Game(Asteroids& context);
-    void pollEvents();
+    Game(Asteroids* context);
+    bool pollEvents();
     void update(sf::Time dt);
-    void draw(sf::RenderTarget& target, sf::RenderStates states);
+    void draw();
     void update();
 private:
     void reset();
-    void createWindow(std::string windowName, int frameLimit);
-    void loadTextures();
     template <typename T>
     void updateEntities(std::vector<T>& v, sf::Time dt);
     template <typename T>
     void drawEntities(std::vector<T>& v);
     void drawLives();
     void checkDespawnedBullets();
-    void draw();
 };
