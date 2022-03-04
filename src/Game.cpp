@@ -11,13 +11,9 @@
 Game::Game(Asteroids* context)
 { 
     srand(time(NULL));
-    // createWindow("Asteroids", 60);
+    AssetLoader* assetLoader = AssetLoader::getInstance();
     window = context->getWindow();
     setContext(context);
-    AssetLoader* assetLoader = AssetLoader::getInstance();
-    assetLoader->loadFont();
-    assetLoader->loadTextures();
-    assetLoader->loadSounds();
     
     shipHpTexture = assetLoader->getTexture("player");
     shipHpSprite.setTexture(*shipHpTexture);

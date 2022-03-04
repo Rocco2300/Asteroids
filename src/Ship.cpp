@@ -96,11 +96,8 @@ void Ship::animate()
     float fT = iT / 6;
     uint8_t alpha = ((static_cast<int>(invincibilityTime.asSeconds() * 100.f) % static_cast<int>(fT)) / fT) * 255;
 
-    if(gotHit)
-        std::cout << (int)alpha << std::endl;
     if(invincibilityTime.asSeconds() >= 2.f && gotHit)
     {
-        std::cout << "Invincibility end" << std::endl;
         gotHit = false;
         collider.setEnabled(true);
         sprite.setColor({255, 255, 255, 255});

@@ -7,6 +7,7 @@ class MainMenu : public MenuState
 {
 private:
     sf::Text finalScoreText;
+    GameManager manager;
 public:
     MainMenu(Asteroids* asteroids);
 

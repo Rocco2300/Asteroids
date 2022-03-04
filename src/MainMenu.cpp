@@ -3,17 +3,22 @@
 
 MainMenu::MainMenu(Asteroids* context)
 {
-    AssetLoader::getInstance()->loadFont();
-    font = AssetLoader::getInstance()->getFont();
     window = context->getWindow();
+    AssetLoader* assetLoader = AssetLoader::getInstance();
+    assetLoader->loadFont();
+    assetLoader->loadTextures();
+    assetLoader->loadSounds();
     setContext(context);
 
+    font = AssetLoader::getInstance()->getFont();
     finalScoreText.setFont(*font);
     finalScoreText.setCharacterSize(64);
     finalScoreText.setFillColor(sf::Color::White);
     finalScoreText.setString("Asteroids");
     finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
     finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+
+    manager.spawnAsteroids();
 }
 
 bool MainMenu::pollEvents()

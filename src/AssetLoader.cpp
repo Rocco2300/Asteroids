@@ -31,24 +31,33 @@ void AssetLoader::loadSoundBuffer(std::string id, std::string path)
 
 void AssetLoader::loadFont()
 {
+    if(loadedFont)
+        return;
     if(!font.loadFromFile("fonts/ARCADECLASSIC.TTF"))
         std::cerr << "Error loading font!" << std::endl;
+    loadedFont = true;
 }
 
 void AssetLoader::loadTextures()
 {
+    if(loadedTextures)
+        return;
     loadTexture("player", "img/Ship.png");
     loadTexture("asteroids", "img/Asteroids.png");
     loadTexture("bullet", "img/Bullet.png");
     loadTexture("enemy", "img/Enemy.png");
     loadTexture("overlay", "img/Overlay.png");
     loadTexture("particle", "img/Particle.png");
+    loadedTextures = true;
 }
 
 void AssetLoader::loadSounds()
 {
+    if(loadedSounds)
+        return;
     loadSoundBuffer("shoot", "sound/Shoot.wav");
     loadSoundBuffer("ship_explosion", "sound/Ship_Explosion.wav");
+    loadedSounds = true;
 }
 
 sf::Texture* AssetLoader::getTexture(std::string id)

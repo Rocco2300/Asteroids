@@ -26,6 +26,9 @@ public:
 private:
     AssetLoader() { }
     static AssetLoader* instance;
+    bool loadedTextures = false;
+    bool loadedFont = false;
+    bool loadedSounds = false;
 
     sf::Font font;
     std::map<std::string, sf::Texture> textures;
