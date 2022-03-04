@@ -25,7 +25,6 @@ private:
 
     sf::Font* font;
     sf::Text scoreText;
-    sf::Text gameOverText;
 
     Ship ship;
     Enemy enemy;

@@ -36,13 +36,6 @@ Game::Game(Asteroids* context)
     scoreText.setOrigin({30.f, 0.f});
     scoreText.setPosition({800.f, 0.f});
 
-    gameOverText.setFont(*font);
-    gameOverText.setCharacterSize(54);
-    gameOverText.setFillColor(sf::Color::White);
-    gameOverText.setString("Game Over!");
-    gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
-    gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
-
     ship = Ship(bullets);
 
     gameOver = false;
@@ -153,7 +146,8 @@ void Game::checkDespawnedBullets()
 void Game::draw()
 {
     window->clear();
-    window->draw(ship);
+    if(ship.getLives() != 0)
+        window->draw(ship);
     window->draw(enemy);
     window->draw(particles);
     drawEntities(asteroids);
@@ -165,12 +159,19 @@ void Game::draw()
     }
     else
     {
+        sf::Text gameOverText;
         sf::Text finalScoreText;
+        gameOverText.setFont(*font);
+        gameOverText.setCharacterSize(54);
+        gameOverText.setFillColor(sf::Color::White);
+        gameOverText.setString("Game Over!");
+        gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
+        gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
+        window->draw(overlaySpr);
+        window->draw(gameOverText);
         finalScoreText.setFont(*font);
         finalScoreText.setCharacterSize(36);
         finalScoreText.setFillColor(sf::Color::White);
-        window->draw(overlaySpr);
-        window->draw(gameOverText);
         finalScoreText.setString("Score");
         finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
         finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});

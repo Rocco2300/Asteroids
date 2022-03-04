@@ -24,6 +24,10 @@ private:
     sf::Time timeBetweenFrames;
     int indexToCurrentFrame;
 
+    bool gotHit;
+    sf::Clock invincibilityClock;
+    sf::Time invincibilityTime;
+
     ast::Vector2 gunDir;
     ast::Vector2 gunPos;
     std::vector<Bullet> *bullets;

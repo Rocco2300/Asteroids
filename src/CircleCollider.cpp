@@ -40,9 +40,9 @@ void CircleCollider::setPosition(ast::Vector2 pos)
     debug.setPosition(pos.toSfVector2f());
 }
 
-void CircleCollider::disable()
+void CircleCollider::setEnabled(bool value)
 {
-    this->enabled = true;
+    this->enabled = value;
 }
 
 ast::Vector2 CircleCollider::getPos() { return pos; }

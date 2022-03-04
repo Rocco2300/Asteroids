@@ -21,6 +21,7 @@ Ship::Ship(std::vector<Bullet>& bullets)
     turningSpeed = 300.f;
     accelTime = .4f;
     accel = maxVel / accelTime;
+    gotHit = false;
 
     AssetLoader* assetLoader = AssetLoader::getInstance();
     this->texture = assetLoader->getTexture("player");
@@ -62,6 +63,10 @@ void Ship::reset()
     this->pos = ast::Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     dir = dirOffset;
     vel = ast::Vector2(0.f, 0.f);
+
+    gotHit = true;
+    collider.setEnabled(false);
+    invincibilityTime = invincibilityClock.restart();
 }
 
 void Ship::animate()
@@ -84,6 +89,25 @@ void Ship::animate()
         // to show the flame as soon as we press space
         indexToCurrentFrame = 32;
         setSprite({0.f, 0.f}, {32.f, 45.f});
+    }
+
+    invincibilityTime = invincibilityClock.getElapsedTime();
+    float iT = 2.f * 100.f;
+    float fT = iT / 6;
+    uint8_t alpha = ((static_cast<int>(invincibilityTime.asSeconds() * 100.f) % static_cast<int>(fT)) / fT) * 255;
+
+    if(gotHit)
+        std::cout << (int)alpha << std::endl;
+    if(invincibilityTime.asSeconds() >= 2.f && gotHit)
+    {
+        std::cout << "Invincibility end" << std::endl;
+        gotHit = false;
+        collider.setEnabled(true);
+        sprite.setColor({255, 255, 255, 255});
+    }
+    else if(invincibilityTime.asSeconds() < 2.5f && gotHit)
+    {
+        sprite.setColor({255, 255, 255, alpha});
     }
 }
 

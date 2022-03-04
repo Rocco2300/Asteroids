@@ -16,7 +16,7 @@ public:
     CircleCollider(ast::Vector2 pos, float radius, std::string tag);
     void create(ast::Vector2 pos, float radius, std::string tag);
     void setPosition(ast::Vector2 pos);
-    void disable();
+    void setEnabled(bool value);
     ast::Vector2 getPos();
     float getX();
     float getY();
