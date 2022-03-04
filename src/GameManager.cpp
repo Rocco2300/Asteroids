@@ -7,8 +7,8 @@ GameManager::GameManager()
 {
 }
 
-GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids, 
-    std::vector<Bullet>& bullets, Enemy& enemy, ParticleSystem& particles, SoundManager& soundManager)
+GameManager::GameManager(Ship* player, std::vector<Asteroid>* asteroids, 
+    std::vector<Bullet>* bullets, Enemy* enemy, ParticleSystem* particles, SoundManager* soundManager)
 {
     srand(time(NULL));
     this->state = GameState::Running;
@@ -18,11 +18,11 @@ GameManager::GameManager(Ship& player, std::vector<Asteroid>& asteroids,
     this->enemySpawnCheck = clock.getElapsedTime();
     this->wave = 1;
 
-    this->player = &player;
-    this->asteroids = &asteroids;
-    this->bullets = &bullets;
-    this->enemy = &enemy;
-    this->particles = &particles;
+    this->player = player;
+    this->asteroids = asteroids;
+    this->bullets = bullets;
+    this->enemy = enemy;
+    this->particles = particles;
 
     spawnAsteroids();
 }

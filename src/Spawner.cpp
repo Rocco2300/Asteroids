@@ -4,16 +4,16 @@
 
 Spawner::Spawner() { }
 
-Spawner::Spawner(Ship& ship, std::vector<Asteroid>& asteroids)
+Spawner::Spawner(Ship* ship, std::vector<Asteroid>* asteroids)
 {
-    this->ship = &ship;
-    this->asteroids = &asteroids;
+    this->ship = ship;
+    this->asteroids = asteroids;
 }
 
-void Spawner::init(Ship& ship, std::vector<Asteroid>& asteroids)
+void Spawner::init(Ship* ship, std::vector<Asteroid>* asteroids)
 {
-    this->ship = &ship;
-    this->asteroids = &asteroids;
+    this->ship = ship;
+    this->asteroids = asteroids;
 }
 
 float Spawner::randomizeSpeed(AsteroidSize size)
@@ -58,6 +58,8 @@ void Spawner::spawnEnemy(Enemy* enemy, std::vector<Bullet>* bullets)
 
 bool Spawner::isInPlayerBounds(ast::Vector2 p)
 {
+    if(ship == nullptr)
+        return false;
     // Bounds of the grace area
     int x1 = ship->getPosition().x - 150;
     int y1 = ship->getPosition().y - 150;

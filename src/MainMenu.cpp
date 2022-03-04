@@ -10,15 +10,18 @@ MainMenu::MainMenu(Asteroids* context)
     assetLoader->loadSounds();
     setContext(context);
 
-    font = AssetLoader::getInstance()->getFont();
-    finalScoreText.setFont(*font);
-    finalScoreText.setCharacterSize(64);
-    finalScoreText.setFillColor(sf::Color::White);
-    finalScoreText.setString("Asteroids");
-    finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
-    finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+    font = assetLoader->getFont();
+    titleText.setFont(*font);
+    titleText.setCharacterSize(64);
+    titleText.setFillColor(sf::Color::White);
+    titleText.setString("Asteroids");
+    titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
+    titleText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+    overlay.setTexture(*assetLoader->getTexture("overlay"));
 
-    manager.spawnAsteroids();
+    std::vector<AsteroidSize> sizes = {Small, Small, Small, Medium, Medium, Large, Large, Large};
+    spawner.init(nullptr, &asteroids);
+    spawner.spawnAsteroids(sizes);
 }
 
 bool MainMenu::pollEvents()
@@ -42,15 +45,32 @@ bool MainMenu::pollEvents()
 
 void MainMenu::update(sf::Time dt)
 {
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
-    // {
-    //     context->setState(new Game(context));
-    // }
+    updateEntities(asteroids, dt);
+}
+
+template <typename T>
+void MainMenu::updateEntities(std::vector<T>& v, sf::Time dt)
+{
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        v[i].update(dt);
+    }
+}
+
+template <typename T>
+void MainMenu::drawEntities(std::vector<T>& v)
+{
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        window->draw(v[i]);
+    }
 }
 
 void MainMenu::draw()
 {
     window->clear();
-    window->draw(finalScoreText);
+    drawEntities(asteroids);
+    window->draw(overlay);
+    window->draw(titleText);
     window->display();
 }

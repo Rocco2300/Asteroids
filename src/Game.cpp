@@ -35,7 +35,7 @@ Game::Game(Asteroids* context)
     ship = Ship(bullets);
 
     gameOver = false;
-    manager = GameManager(ship, asteroids, bullets, enemy, particles, soundManager);
+    manager = GameManager(&ship, &asteroids, &bullets, &enemy, &particles, &soundManager);
     scoreText.setString(std::to_string(manager.getScore()));
 }
 

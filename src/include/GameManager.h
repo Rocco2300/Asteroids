@@ -37,9 +37,9 @@ private:
     void buildAsteroidWaveList();
 public:
     GameManager();
-    GameManager(Ship& player, std::vector<Asteroid>& asteroids,
-        std::vector<Bullet>& bullets, Enemy& enemy, ParticleSystem& particles, 
-        SoundManager& soundManager);
+    GameManager(Ship* player, std::vector<Asteroid>* asteroids,
+        std::vector<Bullet>* bullets, Enemy* enemy, ParticleSystem* particles, 
+        SoundManager* soundManager);
     void reset();
     int getScore();
     void spawnAsteroids();
