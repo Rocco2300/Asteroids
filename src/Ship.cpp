@@ -163,14 +163,18 @@ void Ship::shoot()
 
 void Ship::update(sf::Time dt)
 {
-    getInput();
-    animate();
-    Entity::wrap();
-    rotate(dt);
-    thrust(dt);
-    Entity::move(vel);
-    shoot();
-
+    if(hp != 0)
+    {
+        getInput();
+        animate();
+        Entity::wrap();
+        rotate(dt);
+        thrust(dt);
+        Entity::move(vel);
+        shoot();
+    }
+    else
+        collider.setEnabled(false);
 }
 
 ast::Vector2 Ship::getVelocityVector()

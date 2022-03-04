@@ -53,10 +53,6 @@ bool Game::pollEvents()
             reset();
             manager.reset();
         }
-        if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::N)
-        {
-            asteroids.clear();
-        }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameOver)
         {
             std::unique_ptr<MenuState> newState(new MainMenu(context));
@@ -69,28 +65,25 @@ bool Game::pollEvents()
 
 void Game::update(sf::Time dt)
 {
-    if(!gameOver)
+    state = manager.update();
+    if(state == GameState::GameOver)
     {
-        state = manager.update();
-        if(state == GameState::GameOver)
-        {
-            gameOver = true;
-        }
-
-        ship.update(dt);
-        if(enemy.isAlive())
-            enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
-        particles.update(dt);
-        updateEntities(asteroids, dt);
-        updateEntities(bullets, dt);
-        checkDespawnedBullets();
-
-        // Correct the score display to display at the edge regardless of width of text
-        int score = manager.getScore();
-        float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
-        scoreText.setOrigin({offset, 0.f});
-        scoreText.setString(std::to_string(manager.getScore()));
+        gameOver = true;
     }
+
+    ship.update(dt);
+    if(enemy.isAlive())
+        enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
+    particles.update(dt);
+    updateEntities(asteroids, dt);
+    updateEntities(bullets, dt);
+    checkDespawnedBullets();
+
+    // Correct the score display to display at the edge regardless of width of text
+    int score = manager.getScore();
+    float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
+    scoreText.setOrigin({offset, 0.f});
+    scoreText.setString(std::to_string(manager.getScore()));
 }
 
 void Game::reset()
