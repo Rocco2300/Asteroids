@@ -6,10 +6,12 @@
 class MainMenu : public MenuState
 {
 private:
-    sf::Text titleText;
     Spawner spawner;
 
+    sf::Text titleText;
+    sf::Text startText;
     sf::Sprite overlay;
+    
     std::vector<Asteroid> asteroids;
 public:
     MainMenu(Asteroids* asteroids);

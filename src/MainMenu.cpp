@@ -16,10 +16,15 @@ MainMenu::MainMenu(Asteroids* context)
     titleText.setFillColor(sf::Color::White);
     titleText.setString("Asteroids");
     titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
-    titleText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+    titleText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f);
+    startText.setFont(*font);
+    startText.setCharacterSize(25);
+    startText.setString("PRESS   ENTER");
+    startText.setOrigin(startText.getLocalBounds().width / 2, startText.getLocalBounds().height / 2);
+    startText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     overlay.setTexture(*assetLoader->getTexture("overlay"));
 
-    std::vector<AsteroidSize> sizes = {Small, Small, Small, Medium, Medium, Large, Large, Large};
+    std::vector<AsteroidSize> sizes = {Small, Small, Small, Small, Small, Medium, Medium, Large, Large, Large};
     spawner.init(nullptr, &asteroids);
     spawner.spawnAsteroids(sizes);
 }
@@ -72,5 +77,6 @@ void MainMenu::draw()
     drawEntities(asteroids);
     window->draw(overlay);
     window->draw(titleText);
+    window->draw(startText);
     window->display();
 }

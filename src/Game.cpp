@@ -170,12 +170,22 @@ void Game::draw()
         finalScoreText.setFillColor(sf::Color::White);
         finalScoreText.setString("Score");
         finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
-        finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f});
+        finalScoreText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 50.f);
         window->draw(finalScoreText);
         finalScoreText.setString(std::to_string(manager.getScore()));
         finalScoreText.setOrigin(finalScoreText.getLocalBounds().width / 2, finalScoreText.getLocalBounds().height / 2);
         finalScoreText.setPosition({WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 75.f});
         window->draw(finalScoreText);
+        gameOverText.setString("Press   R    to    restart");
+        gameOverText.setCharacterSize(21);
+        gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
+        gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5f);
+        window->draw(gameOverText);
+        gameOverText.setString("Press   ESC    to    return");
+        gameOverText.setCharacterSize(21);
+        gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
+        gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 1.5f + 20.f);
+        window->draw(gameOverText);
     }
     window->display();
 }
