@@ -173,12 +173,12 @@ void Game::draw()
         window->draw(text);
     }
 
-    if(!gameOver)
+    if(!gameOver && !paused)
     {
         window->draw(scoreText);
         drawLives();
     }
-    else
+    else if(gameOver)
     {
         sf::Text gameOverText;
         sf::Text finalScoreText;

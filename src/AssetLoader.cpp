@@ -58,6 +58,9 @@ void AssetLoader::loadSounds()
     loadSoundBuffer("shoot", "sound/Shoot.wav");
     loadSoundBuffer("ship_explosion", "sound/Ship_Explosion.wav");
     loadSoundBuffer("asteroid_explosion", "sound/Asteroid_Explosion.wav");
+    loadSoundBuffer("enemy_explosion", "sound/Enemy_Explosion.wav");
+    loadSoundBuffer("enemy_spawn", "sound/Enemy_Spawn.wav");
+    loadSoundBuffer("enemy_destroy", "sound/Enemy_Destroy.wav");
     loadedSounds = true;
 }
 

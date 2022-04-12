@@ -27,6 +27,9 @@ GameManager::GameManager(Ship* player, std::vector<Asteroid>* asteroids,
 
     spawnAsteroids();
     soundManager->loadSound("asteroid_explosion");
+    soundManager->loadSound("enemy_spawn");
+    soundManager->loadSound("enemy_destroy");
+    soundManager->loadSound("enemy_explosion");
     soundManager->setBuffers();
 }
 
@@ -166,6 +169,8 @@ void GameManager::destroyBullet(int index)
 void GameManager::destroyEnemy()
 {
     particles->spawn(enemy->getPosition(), 30, .15f);
+    soundManager->playSound("enemy_explosion", 50);
+    soundManager->playSound("enemy_destroy");
     *enemy = Enemy();
 }
 
@@ -328,6 +333,7 @@ GameState GameManager::update()
         int chance = rand() % 100 + 1;
         if(chance <= 50)
         {
+            soundManager->playSound("enemy_spawn", 20);
             spawner.spawnEnemy(enemy, bullets);
         }
     }

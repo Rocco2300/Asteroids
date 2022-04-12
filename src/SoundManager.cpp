@@ -31,6 +31,17 @@ void SoundManager::playSound(std::string id)
         sounds[id].play();
 }
 
+void SoundManager::playSound(std::string id, int volume)
+{
+    auto it = sounds.find(id);
+    assert(it != sounds.end());
+    if(sounds[id].getStatus() != sf::Sound::Playing)
+    {
+        sounds[id].setVolume(volume);
+        sounds[id].play();
+    }
+}
+
 void SoundManager::playMusic(std::string path)
 {
     // sf::Music music;
@@ -43,6 +54,7 @@ void SoundManager::playMusic(std::string path)
     }
 
     playing.insert(std::make_pair(path, std::move(music)));
+    playing[path]->setLoop(true);
     playing[path]->play();
 }
 

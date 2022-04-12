@@ -18,6 +18,7 @@ public:
     void loadSound(std::string id);
     void setBuffers();
     void playSound(std::string id);
+    void playSound(std::string id, int volume);
     void playMusic(std::string path);
     void stopMusic(std::string path);
     void changeMusicVolume(std::string path, int volume);
