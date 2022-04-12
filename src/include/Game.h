@@ -18,6 +18,7 @@ private:
     GameManager manager;
     GameState state;
     bool gameOver;
+    bool paused;
 
     sf::Texture* shipTex;
     sf::Texture* overlay;

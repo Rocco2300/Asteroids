@@ -38,6 +38,7 @@ Game::Game(Asteroids* context)
     soundManager.changeMusicVolume("sound/Game_theme.wav", 20);
 
     gameOver = false;
+    paused = false;
     manager = GameManager(&ship, &asteroids, &bullets, &enemy, &particles, &soundManager);
     scoreText.setString(std::to_string(manager.getScore()));
 }
@@ -63,6 +64,14 @@ bool Game::pollEvents()
             context->setState(newState);
             return true;
         }
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && !gameOver)
+        {
+            paused = !paused;
+            if(paused)
+                soundManager.changeMusicVolume("sound/Game_theme.wav", 5);
+            else
+                soundManager.changeMusicVolume("sound/Game_theme.wav", 20);
+        }
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::N)
             asteroids.clear();
     }
@@ -71,25 +80,28 @@ bool Game::pollEvents()
 
 void Game::update(sf::Time dt)
 {
-    state = manager.update();
-    if(state == GameState::GameOver)
+    if(!paused)
     {
-        gameOver = true;
+        state = manager.update();
+        if(state == GameState::GameOver)
+        {
+            gameOver = true;
+        }
+
+        ship.update(dt);
+        if(enemy.isAlive())
+            enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
+        particles.update(dt);
+        updateEntities(asteroids, dt);
+        updateEntities(bullets, dt);
+        checkDespawnedBullets();
+
+        // Correct the score display to display at the edge regardless of width of text
+        int score = manager.getScore();
+        float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
+        scoreText.setOrigin({offset, 0.f});
+        scoreText.setString(std::to_string(manager.getScore()));
     }
-
-    ship.update(dt);
-    if(enemy.isAlive())
-        enemy.update(dt, ship.getPosition(), ship.getVelocityVector());
-    particles.update(dt);
-    updateEntities(asteroids, dt);
-    updateEntities(bullets, dt);
-    checkDespawnedBullets();
-
-    // Correct the score display to display at the edge regardless of width of text
-    int score = manager.getScore();
-    float offset = (score > 0) ? ((int)floor(log10(score)) * 20.f) + 30.f : 30.f;
-    scoreText.setOrigin({offset, 0.f});
-    scoreText.setString(std::to_string(manager.getScore()));
 }
 
 void Game::reset()
@@ -147,6 +159,20 @@ void Game::draw()
     window->draw(particles);
     drawEntities(asteroids);
     drawEntities(bullets);
+    if(gameOver || paused)
+        window->draw(overlaySpr);
+
+    if(paused)
+    {
+        sf::Text text;
+        text.setFont(*font);
+        text.setCharacterSize(64);
+        text.setString("Paused");
+        text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
+        text.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
+        window->draw(text);
+    }
+
     if(!gameOver)
     {
         window->draw(scoreText);
@@ -162,7 +188,6 @@ void Game::draw()
         gameOverText.setString("Game Over!");
         gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
         gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
-        window->draw(overlaySpr);
         window->draw(gameOverText);
         finalScoreText.setFont(*font);
         finalScoreText.setCharacterSize(36);
