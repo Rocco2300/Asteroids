@@ -316,6 +316,8 @@ GameState GameManager::update()
         {
             waveEndTime = clock.getElapsedTime();
             waveEnd = true;
+            soundManager->pauseMusic("sound/Game_theme.wav");
+            soundManager->playMusic("sound/Win.wav", false);
         }
 
         if((currentTime - waveEndTime).asSeconds() >= 3.f)
@@ -325,6 +327,8 @@ GameState GameManager::update()
             wave++;
             enemySpawnCheck = clock.getElapsedTime();
             spawnAsteroids();
+            soundManager->playMusic("sound/Game_theme.wav");
+            soundManager->stopMusic("sound/Win.wav");
         }
     }
 

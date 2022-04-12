@@ -44,7 +44,14 @@ void SoundManager::playSound(std::string id, int volume)
 
 void SoundManager::playMusic(std::string path)
 {
-    // sf::Music music;
+    auto it = playing.find(path);
+    if (it != playing.end())
+    {
+        playing[path]->setLoop(true);
+        playing[path]->play();
+        return;
+    }
+
     std::unique_ptr<sf::Music> music(new sf::Music);
 
     if(!music->openFromFile(path))
@@ -56,6 +63,36 @@ void SoundManager::playMusic(std::string path)
     playing.insert(std::make_pair(path, std::move(music)));
     playing[path]->setLoop(true);
     playing[path]->play();
+}
+
+void SoundManager::playMusic(std::string path, bool repeat)
+{
+    auto it = playing.find(path);
+    if (it != playing.end())
+    {
+        playing[path]->setLoop(repeat);
+        playing[path]->play();
+        return;
+    }
+
+    std::unique_ptr<sf::Music> music(new sf::Music);
+
+    if(!music->openFromFile(path))
+    {
+        std::cerr << "Error loading music file from " << path << std::endl;
+        return;
+    }
+
+    playing.insert(std::make_pair(path, std::move(music)));
+    playing[path]->setLoop(repeat);
+    playing[path]->play();
+}
+
+void SoundManager::pauseMusic(std::string path)
+{
+    auto it = playing.find(path);
+    assert(it != playing.end());
+    playing[path]->pause();
 }
 
 void SoundManager::stopMusic(std::string path)

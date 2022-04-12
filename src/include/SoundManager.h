@@ -20,6 +20,8 @@ public:
     void playSound(std::string id);
     void playSound(std::string id, int volume);
     void playMusic(std::string path);
+    void playMusic(std::string path, bool repeat);
+    void pauseMusic(std::string path);
     void stopMusic(std::string path);
     void changeMusicVolume(std::string path, int volume);
 };
