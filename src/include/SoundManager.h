@@ -11,10 +11,15 @@ private:
     AssetLoader* assetLoader;
     std::map<std::string, sf::SoundBuffer*> buffers;
     std::map<std::string, sf::Sound> sounds;
+    std::map<std::string, std::unique_ptr<sf::Music>> playing;
+    // std::map<std::string, sf::Music> playing;
 public:
     SoundManager();
     void loadSound(std::string id);
     void setBuffers();
     void playSound(std::string id);
+    void playMusic(std::string path);
+    void stopMusic(std::string path);
+    void changeMusicVolume(std::string path, int volume);
 };
 

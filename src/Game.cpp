@@ -33,6 +33,10 @@ Game::Game(Asteroids* context)
     scoreText.setPosition({800.f, 0.f});
 
     ship = Ship(bullets);
+        
+    soundManager.loadSound("asteroid_explosion");
+    soundManager.playMusic("sound/Game_theme.wav");
+    soundManager.changeMusicVolume("sound/Game_theme.wav", 20);
 
     gameOver = false;
     manager = GameManager(&ship, &asteroids, &bullets, &enemy, &particles, &soundManager);
@@ -56,9 +60,12 @@ bool Game::pollEvents()
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameOver)
         {
             std::unique_ptr<MenuState> newState(new MainMenu(context));
+            soundManager.stopMusic("sound/Game_theme.wav");
             context->setState(newState);
             return true;
         }
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::N)
+            asteroids.clear();
     }
     return false;
 }

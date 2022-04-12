@@ -23,6 +23,7 @@ GameManager::GameManager(Ship* player, std::vector<Asteroid>* asteroids,
     this->bullets = bullets;
     this->enemy = enemy;
     this->particles = particles;
+    this->soundManager = soundManager;
 
     spawnAsteroids();
 }
@@ -151,6 +152,7 @@ void GameManager::destroyAsteroid(int index)
     }
 
     asteroids->erase(asteroids->begin() + index);
+    soundManager->playSound("asteroid_explosion");
 }
 
 void GameManager::destroyBullet(int index)

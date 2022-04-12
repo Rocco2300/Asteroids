@@ -24,6 +24,9 @@ MainMenu::MainMenu(Asteroids* context)
     startText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     overlay.setTexture(*assetLoader->getTexture("overlay"));
 
+    soundManager.playMusic("sound/MainMenu_theme.wav");
+    soundManager.changeMusicVolume("sound/MainMenu_theme.wav", 20);
+
     std::vector<AsteroidSize> sizes = {Small, Small, Small, Small, Small, Medium, Medium, Large, Large, Large};
     spawner.init(nullptr, &asteroids);
     spawner.spawnAsteroids(sizes);
@@ -41,6 +44,7 @@ bool MainMenu::pollEvents()
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
         {
             std::unique_ptr<MenuState> newState(new Game(context));
+            soundManager.stopMusic("sound/MainMenu_theme.wav");
             context->setState(newState);
             return true;
         }

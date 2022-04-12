@@ -57,6 +57,7 @@ void AssetLoader::loadSounds()
         return;
     loadSoundBuffer("shoot", "sound/Shoot.wav");
     loadSoundBuffer("ship_explosion", "sound/Ship_Explosion.wav");
+    loadSoundBuffer("asteroid_explosion", "sound/Asteroid_Explosion.wav");
     loadedSounds = true;
 }
 

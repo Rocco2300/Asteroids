@@ -19,6 +19,7 @@ private:
     GameState state;
     Spawner spawner;
     ParticleSystem* particles;
+    SoundManager* soundManager;
 
     int wave;
     int score;

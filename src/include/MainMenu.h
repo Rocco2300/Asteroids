@@ -7,6 +7,7 @@ class MainMenu : public MenuState
 {
 private:
     Spawner spawner;
+    SoundManager soundManager;
 
     sf::Text titleText;
     sf::Text startText;
