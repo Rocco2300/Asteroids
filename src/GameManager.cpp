@@ -26,6 +26,8 @@ GameManager::GameManager(Ship* player, std::vector<Asteroid>* asteroids,
     this->soundManager = soundManager;
 
     spawnAsteroids();
+    soundManager->loadSound("asteroid_explosion");
+    soundManager->setBuffers();
 }
 
 void GameManager::reset()

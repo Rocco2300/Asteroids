@@ -27,6 +27,7 @@ void SoundManager::playSound(std::string id)
 {
     auto it = sounds.find(id);
     assert(it != sounds.end());
+    std::cout << "Playing " << id << std::endl;
     if(sounds[id].getStatus() != sf::Sound::Playing)
         sounds[id].play();
 }

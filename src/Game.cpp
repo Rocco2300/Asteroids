@@ -34,7 +34,6 @@ Game::Game(Asteroids* context)
 
     ship = Ship(bullets);
         
-    soundManager.loadSound("asteroid_explosion");
     soundManager.playMusic("sound/Game_theme.wav");
     soundManager.changeMusicVolume("sound/Game_theme.wav", 20);
 
