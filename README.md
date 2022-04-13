@@ -7,8 +7,6 @@ This is a small clone of the retro game asteroids.
 I started making it with the purpose of learning to use SFML, get
 comfortable writing C++ code, and managing a 'larger' project.
 
-Also keep in mind that this is still a work in progress. :)
-
 ## Screenshots
 
 ![Title_Screen](./title_screen.png)
