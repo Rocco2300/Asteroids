@@ -15,7 +15,7 @@ AssetLoader* AssetLoader::getInstance()
 void AssetLoader::loadTexture(std::string id, std::string path)
 {
     sf::Texture texture;
-    if(!texture.loadFromFile(path))
+    if(!texture.loadFromFile(makeFullPath(path)))
         std::cerr << "Error loading texture " << id << "!\n";
     texture.setRepeated(false);
     textures.insert(std::make_pair(id, std::move(texture)));
@@ -24,7 +24,8 @@ void AssetLoader::loadTexture(std::string id, std::string path)
 void AssetLoader::loadSoundBuffer(std::string id, std::string path)
 {
     sf::SoundBuffer buffer;
-    if(!buffer.loadFromFile(path))
+    path.insert(0, "/");
+    if(!buffer.loadFromFile(makeFullPath(path)))
         std::cerr << "Error loading buffer " << id << "!\n";
     soundBuffers.insert(std::make_pair(id, std::move(buffer)));
 }
@@ -33,7 +34,8 @@ void AssetLoader::loadFont()
 {
     if(loadedFont)
         return;
-    if(!font.loadFromFile("fonts/ARCADECLASSIC.TTF"))
+
+    if(!font.loadFromFile(makeFullPath("/fonts/ARCADECLASSIC.TTF")))
         std::cerr << "Error loading font!" << std::endl;
     loadedFont = true;
 }

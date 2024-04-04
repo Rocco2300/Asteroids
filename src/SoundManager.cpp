@@ -44,6 +44,7 @@ void SoundManager::playSound(std::string id, int volume)
 
 void SoundManager::playMusic(std::string path)
 {
+    path = makeFullPath(path);
     auto it = playing.find(path);
     if (it != playing.end())
     {
@@ -53,7 +54,6 @@ void SoundManager::playMusic(std::string path)
     }
 
     std::unique_ptr<sf::Music> music(new sf::Music);
-
     if(!music->openFromFile(path))
     {
         std::cerr << "Error loading music file from " << path << std::endl;
@@ -67,6 +67,7 @@ void SoundManager::playMusic(std::string path)
 
 void SoundManager::playMusic(std::string path, bool repeat)
 {
+    path = makeFullPath(path);
     auto it = playing.find(path);
     if (it != playing.end())
     {
@@ -76,7 +77,6 @@ void SoundManager::playMusic(std::string path, bool repeat)
     }
 
     std::unique_ptr<sf::Music> music(new sf::Music);
-
     if(!music->openFromFile(path))
     {
         std::cerr << "Error loading music file from " << path << std::endl;
@@ -90,6 +90,7 @@ void SoundManager::playMusic(std::string path, bool repeat)
 
 void SoundManager::pauseMusic(std::string path)
 {
+    path = makeFullPath(path);
     auto it = playing.find(path);
     assert(it != playing.end());
     playing[path]->pause();
@@ -97,6 +98,7 @@ void SoundManager::pauseMusic(std::string path)
 
 void SoundManager::stopMusic(std::string path)
 {
+    path = makeFullPath(path);
     auto it = playing.find(path);
     assert(it != playing.end());
     playing[path]->stop();
@@ -105,6 +107,7 @@ void SoundManager::stopMusic(std::string path)
 
 void SoundManager::changeMusicVolume(std::string path, int volume)
 {
+    path = makeFullPath(path);
     auto it = playing.find(path);
     assert(it != playing.end());
     playing[path]->setVolume(volume);

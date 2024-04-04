@@ -6,6 +6,12 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 
+static std::string makeFullPath(const std::string& path) {
+    std::string retPath = "/" + path; 
+    retPath.insert(0, INSTALL_DIR);
+    return retPath;
+}
+
 /*
 This is a singleton class used for loading the 
 textures needed just once
