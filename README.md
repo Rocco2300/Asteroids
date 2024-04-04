@@ -14,19 +14,23 @@ comfortable writing C++ code, and managing a 'larger' project.
 
 ## Dependecies
 
-- make (mingw32-make)
-- cmake
+- CMake 3.23
+- GCC 11.2 or equivalent
 
-## Building
-
-The project has included a build target in the makefile, the target uses
-.bat files to build and move the necessary files into their respective directories,
-at the moment the project can be build easily on windows using that, but on linux,
-it will need manual building.
-
+## Build
+1. Go to install dir and create build directory
+```shell
+cd asteroids-clone
+mkdir build
 ```
-cd asteroids
-mingw32-make install
+2. Build using CMake
+```shell
+cmake .. -G "MinGW Makefiles"
+cmake --build . -- -j4 -O
+```
+3. Run executable
+```shell
+./asteroids-clone
 ```
 
 After the project is built, you will just have tu run the executable.
