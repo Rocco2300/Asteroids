@@ -18,17 +18,21 @@ comfortable writing C++ code, and managing a 'larger' project.
 - GCC 11.2 or equivalent
 
 ## Build
-1. Go to install dir and create build directory
+1. Clone the repo and deps
+```shell
+git clone --recurse-submodules https://github.com/Rocco2300/asteroids-clone.git
+```
+2. Go to install dir and create build directory
 ```shell
 cd asteroids-clone
 mkdir build
 ```
-2. Build using CMake
+3. Build using CMake
 ```shell
 cmake .. -G "MinGW Makefiles"
 cmake --build . -- -j4 -O
 ```
-3. Run executable
+4. Run executable
 ```shell
 ./asteroids-clone
 ```
